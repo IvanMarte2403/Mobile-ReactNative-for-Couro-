@@ -9,8 +9,9 @@ import React, { useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import LoginScreen from './screens/LoginScreen';
-import CreateAccountScreen from './screens/CreateAccountScreen';
+import LoginScreen from './screens/authentification/LoginScreen';
+import CreateAccountScreen from './screens/authentification/CreateAccountScreen';
+import ForgotPassworScreen from './screens/authentification/ForgotPasswordScreen';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -25,6 +26,8 @@ function App(): React.JSX.Element {
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       {currentScreen === 'Login' && <LoginScreen navigate={setCurrentScreen} />}
       {currentScreen === 'CreateAccount' && <CreateAccountScreen navigate={setCurrentScreen} />}
+
+      {currentScreen === 'ForgotPassword' && <ForgotPassworScreen navigate={setCurrentScreen} />}
     </SafeAreaView>
   );
 }

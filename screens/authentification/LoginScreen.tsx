@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, Image } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../style.ts';
+import { colors, spacing, fontSizes, fonts } from '../../style.ts';
 
 interface Props {
-  navigate: (screen: 'Login' | 'CreateAccount') => void;
+  navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword') => void;
 }
 
 const LoginScreen: React.FC<Props> = ({ navigate }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoImagen}>
-        <Image source={require('../img/logo/logo.png')} style={styles.logo} />
+        <Image source={require('../../img/logo/logo.png')} style={styles.logo} />
       </View>
       <View style={styles.titleInicioSesion}>
         <Text style={styles.title}>
@@ -23,7 +23,7 @@ const LoginScreen: React.FC<Props> = ({ navigate }) => {
 
         <View style={styles.containerForgot}>
             <TouchableOpacity>
-              <Text style={styles.forgotPassword}>Forgot password?</Text>
+              <Text style={styles.forgotPassword} onPress={() => navigate('ForgotPassword')}>Forgot password?</Text>
             </TouchableOpacity>
         </View>
       
@@ -37,6 +37,7 @@ const LoginScreen: React.FC<Props> = ({ navigate }) => {
 
       </View>
 
+      {/* Cambio de Vista a CreateAccount */}
       <View style={styles.registerContainer}>
         <Text>
           Don’t have an account? <Text style={styles.register} onPress={() => navigate('CreateAccount')}>Register</Text>
@@ -50,21 +51,24 @@ const LoginScreen: React.FC<Props> = ({ navigate }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: spacing.medium,
     backgroundColor: '#fff',
+    justifyContent: 'center',
   },
   logoImagen: {
-    alignItems: 'center',
     marginVertical: spacing.medium,
+    width: '100%',
     height: '10%',
     marginTop: spacing.large,
-  },
-  logo: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex', // Asegura que el contenedor use flexbox
+},
+logo: {
     width: '100%',
     height: '100%',
     resizeMode: 'contain', // Asegura que la imagen no se corte y mantenga su proporción
-  },
+    alignSelf: 'center', // Centra la imagen dentro del contenedor
+},
   titleInicioSesion: {
     alignItems: 'center',
     marginVertical: spacing.medium,
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
   register: {
     fontWeight: 'bold',
     color: colors.primary,
-    
+
   },
 });
 
