@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, Image, Scr
 import { colors, spacing, fontSizes, fonts } from '../../style.ts';
 
 interface Props {
-  navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword') => void;
+navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword' | 'TapYourNewPassword') => void;
 }
 
 const CreateAccountScreen: React.FC<Props> = ({ navigate }) => {

@@ -9,9 +9,14 @@ import React, { useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+
+// AuthentificationViews
+
 import LoginScreen from './screens/authentification/LoginScreen';
 import CreateAccountScreen from './screens/authentification/CreateAccountScreen';
 import ForgotPassworScreen from './screens/authentification/ForgotPasswordScreen';
+import TapYourNewPassword from './screens/authentification/TapYourNewPassword';
+
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,6 +33,8 @@ function App(): React.JSX.Element {
       {currentScreen === 'CreateAccount' && <CreateAccountScreen navigate={setCurrentScreen} />}
 
       {currentScreen === 'ForgotPassword' && <ForgotPassworScreen navigate={setCurrentScreen} />}
+
+      {currentScreen === 'TapYourNewPassword' && <TapYourNewPassword navigate={setCurrentScreen} />}
     </SafeAreaView>
   );
 }

@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView,
 import { colors, spacing, fontSizes, fonts } from '../../style.ts';
 
 interface Props {
-    navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword') => void;
+    navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword' | 'TapYourNewPassword') => void;
 }
 
 const ForgotPasswordScreen: React.FC<Props> = ({ navigate }) => {
@@ -15,7 +15,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigate }) => {
 
     const handleModalContinue = () => {
         setModalVisible(false);
-        navigate('Login');
+        navigate('TapYourNewPassword');
     };
 
     return (
