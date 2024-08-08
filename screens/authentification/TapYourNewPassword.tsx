@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 interface Props {
-    navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword' | 'TapYourNewPassword') => void;
+    navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword' | 'TapYourNewPassword' | 'ConfirmPassword') => void;
 }
 
 const TapYourNewPassword: React.FC<Props> = ({ navigate }) => {
@@ -33,8 +33,8 @@ const TapYourNewPassword: React.FC<Props> = ({ navigate }) => {
 
                         {/* Contenedor Botón */}
                         <View style={styles.containerButton}>
-                        <TouchableOpacity style={styles.ButtonLogin} onPress={()=> navigate('Login')}>
-                            <Text style={styles.ButtonLoginText}>Guardar</Text>
+                        <TouchableOpacity style={styles.ButtonLogin} onPress={()=> navigate('ConfirmPassword')}>
+                            <Text style={styles.ButtonLoginText}>Change Password</Text>
                         </TouchableOpacity>
                         </View>
 

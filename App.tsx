@@ -16,6 +16,7 @@ import LoginScreen from './screens/authentification/LoginScreen';
 import CreateAccountScreen from './screens/authentification/CreateAccountScreen';
 import ForgotPassworScreen from './screens/authentification/ForgotPasswordScreen';
 import TapYourNewPassword from './screens/authentification/TapYourNewPassword';
+import ConfirmPasswordScreen from './screens/authentification/ConfirmPasswordScreen';
 
 
 function App(): React.JSX.Element {
@@ -35,6 +36,8 @@ function App(): React.JSX.Element {
       {currentScreen === 'ForgotPassword' && <ForgotPassworScreen navigate={setCurrentScreen} />}
 
       {currentScreen === 'TapYourNewPassword' && <TapYourNewPassword navigate={setCurrentScreen} />}
+
+      {currentScreen === 'ConfirmPassword' && <ConfirmPasswordScreen navigate={setCurrentScreen} />}
     </SafeAreaView>
   );
 }
