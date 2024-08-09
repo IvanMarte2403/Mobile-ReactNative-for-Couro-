@@ -1,14 +1,52 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AuthStackParamList } from '../../App'; 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
+
+
+
 const HomeScreen = () => {
     const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
 
     return (
         <View style={styles.container}>
-            {/* Aquí puedes agregar el contenido de la pantalla de inicio */}
+            <View style={styles.containerHeader}>
+                <View style={styles.containerText}>
+                    <Text style={styles.title}>
+                    Your {"\n"}<Text style={styles.highlight}>patients</Text>
+                    </Text>
+                </View>
+                
+                {/* ===============Header================= */}
+                <View style={styles.containerImage}>
+
+                    <View
+                        style={styles.circleContainer}
+                    >
+                        <Image
+                        source={require('../../img/icons/profile.png')}
+                        resizeMode = 'contain'
+                        style ={styles.imageIcon}
+                        >
+                        </Image>
+                    </View>
+                    
+
+                </View>
+            </View>
+
+            <View style={styles.containerSearch}>
+                <FontAwesomeIcon icon={faSearch} size={20} color={colors.primary} style={styles.searchIcon} />
+                <TextInput
+                    placeholder=""
+                    placeholderTextColor={colors.theriary}
+                    style={styles.searchInput}
+                />
+    </View>
+            
         </View>
     );
 }
@@ -33,12 +71,12 @@ const styles = StyleSheet.create({
         marginVertical: spacing.medium,
     },
     title: {
-        fontSize: fontSizes.large,
-        fontWeight: 'bold',
+        fontSize: fontSizes.xl,
+        fontWeight: '400',
         fontFamily: fonts.bold,
         color: colors.primary,
         marginTop: spacing.medium,
-        textAlign: 'center',
+        textAlign: 'left',
     },
     containerForms: {
         marginTop: spacing.large,
@@ -47,6 +85,7 @@ const styles = StyleSheet.create({
     },
     highlight: {
         color: colors.secondary,
+        fontWeight: '700',
     },
     input: {
         marginTop: spacing.small,
@@ -97,6 +136,66 @@ const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'contain',
     },
+
+    //Header 
+    containerHeader:{
+        width: '100%',
+        flexDirection: 'row',
+    },
+    containerText:{
+        width: '75%',
+        flexDirection: 'column',
+    },
+    containerImage:{
+        width: '25%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 100,
+    },
+    circleContainer: {
+        width: 70, 
+        height: 70,
+        borderRadius: 50, 
+        backgroundColor: '#fff',
+    
+        // iOS Shadows
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    
+        // Android Shadows
+        elevation: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      imageIcon: {
+        width: '50%',
+
+      },
+
+    //   Seach
+      containerSearch: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 10,
+        paddingHorizontal: spacing.small,
+        paddingVertical: spacing.tiny,
+        backgroundColor: colors.textPrimary,
+        marginTop: spacing.large,
+      },
+      searchIcon: {
+        marginRight: spacing.small,
+    },
+      searchInput: {
+        flex: 1,
+        fontSize: fontSizes.medium,
+        color: colors.primary,
+        paddingVertical: 0, // Para alinear el texto verticalmente con el ícono
+      },
+    
+   
+
 });
 
 export default HomeScreen;

@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
-
+import { AuthContext } from '../../App';
 const LoginScreen = () => {
+
+  const { signIn } = useContext(AuthContext);
+
+  const handleLogin = () => {
+    signIn();
+    navigation.navigate('Home');
+  };
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
@@ -28,8 +35,12 @@ const LoginScreen = () => {
         </View>
 
         <View style={styles.containerButton}>
-          <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity 
+           style={styles.ButtonLogin}
+           onPress={handleLogin}>
+
             <Text style={styles.ButtonLoginText}>Login</Text>
+            
           </TouchableOpacity>
         </View>
       </View>

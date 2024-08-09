@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -15,7 +15,7 @@ import ConfirmPasswordScreen from './screens/authentification/ConfirmPasswordScr
 // HomeViews
 import HomeScreen from './screens/navigation/HomeScreen';
 
-// Define los tipos de rutas
+// Defyne the type of routes
 export type AuthStackParamList = {
   Login: undefined;
   CreateAccount: undefined;
@@ -29,7 +29,6 @@ export type HomeStackParamList = {
 };
 
 export type RootStackParamList = AuthStackParamList & HomeStackParamList;
-
 
 const AuthStack = createStackNavigator<AuthStackParamList>();
 const HomeStack = createStackNavigator<HomeStackParamList>();
@@ -46,9 +45,16 @@ const AuthStackScreen = () => (
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator initialRouteName="Home">
-    <HomeStack.Screen name="Home" component={HomeScreen} />
+    <HomeStack.Screen 
+      name="Home" 
+      component={HomeScreen} 
+      options={{ headerShown: false }} 
+    />
   </HomeStack.Navigator>
 );
+
+// Context for aunthentification, for testing purposes only
+const AuthContext = createContext<{ signIn: () => void }>({ signIn: () => {} });
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -58,14 +64,21 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const signIn = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
-    <NavigationContainer>
-      <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        {isAuthenticated ? <HomeStackScreen /> : <AuthStackScreen />}
-      </SafeAreaView>
-    </NavigationContainer>
+    <AuthContext.Provider value={{ signIn }}>
+      <NavigationContainer>
+        <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          {isAuthenticated ? <HomeStackScreen /> : <AuthStackScreen />}
+        </SafeAreaView>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 
+export { AuthContext };
 export default App;
