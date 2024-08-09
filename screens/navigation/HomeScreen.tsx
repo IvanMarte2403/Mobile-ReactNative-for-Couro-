@@ -1,43 +1,15 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-
-const TapYourNewPassword = () => {
-    const navigation = useNavigation();
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { AuthStackParamList } from '../../App'; 
+const HomeScreen = () => {
+    const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
 
     return (
-        <SafeAreaView style={[styles.scrollViewContainer]}>
-            <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-                {/* ContainerPrincipal */}
-                <View style={[styles.container]}>
-                    {/* Imagen-Couro */}
-                    <View style={styles.logoImagen}>
-                        <Image source={require('../../img/logo/logo.png')} style={styles.logo} />
-                    </View>
-                    {/* Titulo */}
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>
-                            Type your new <Text style={styles.highlight}>password</Text>
-                        </Text>
-                    </View>
-
-                    {/* ContainerForms */}
-                    <View style={styles.containerForms}>
-                        <TextInput placeholder="New Password" style={styles.input} secureTextEntry />
-                        <TextInput placeholder="Confirm New Password" style={styles.input} secureTextEntry />
-
-                        {/* Contenedor Botón */}
-                        <View style={styles.containerButton}>
-                            <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate('ConfirmPassword')}>
-                                <Text style={styles.ButtonLoginText}>Change Password</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+        <View style={styles.container}>
+            {/* Aquí puedes agregar el contenido de la pantalla de inicio */}
+        </View>
     );
 }
 
@@ -127,4 +99,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TapYourNewPassword;
+export default HomeScreen;

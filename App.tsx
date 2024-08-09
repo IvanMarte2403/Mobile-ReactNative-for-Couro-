@@ -1,51 +1,71 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+import 'react-native-gesture-handler';
 import React, { useState } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // AuthentificationViews
-
 import LoginScreen from './screens/authentification/LoginScreen';
 import CreateAccountScreen from './screens/authentification/CreateAccountScreen';
-import ForgotPassworScreen from './screens/authentification/ForgotPasswordScreen';
+import ForgotPasswordScreen from './screens/authentification/ForgotPasswordScreen';
 import TapYourNewPassword from './screens/authentification/TapYourNewPassword';
 import ConfirmPasswordScreen from './screens/authentification/ConfirmPasswordScreen';
 
+// HomeViews
+import HomeScreen from './screens/navigation/HomeScreen';
+
+// Define los tipos de rutas
+export type AuthStackParamList = {
+  Login: undefined;
+  CreateAccount: undefined;
+  ForgotPassword: undefined;
+  TapYourNewPassword: undefined;
+  ConfirmPassword: undefined;
+};
+
+export type HomeStackParamList = {
+  Home: undefined;
+};
+
+export type RootStackParamList = AuthStackParamList & HomeStackParamList;
+
+
+const AuthStack = createStackNavigator<AuthStackParamList>();
+const HomeStack = createStackNavigator<HomeStackParamList>();
+
+const AuthStackScreen = () => (
+  <AuthStack.Navigator initialRouteName="Login">
+    <AuthStack.Screen name="Login" component={LoginScreen} />
+    <AuthStack.Screen name="CreateAccount" component={CreateAccountScreen} />
+    <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+    <AuthStack.Screen name="TapYourNewPassword" component={TapYourNewPassword} />
+    <AuthStack.Screen name="ConfirmPassword" component={ConfirmPasswordScreen} />
+  </AuthStack.Navigator>
+);
+
+const HomeStackScreen = () => (
+  <HomeStack.Navigator initialRouteName="Home">
+    <HomeStack.Screen name="Home" component={HomeScreen} />
+  </HomeStack.Navigator>
+);
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [currentScreen, setCurrentScreen] = useState('Login');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
   return (
-    <SafeAreaView style={[styles.container, backgroundStyle]}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      {currentScreen === 'Login' && <LoginScreen navigate={setCurrentScreen} />}
-      {currentScreen === 'CreateAccount' && <CreateAccountScreen navigate={setCurrentScreen} />}
-
-      {currentScreen === 'ForgotPassword' && <ForgotPassworScreen navigate={setCurrentScreen} />}
-
-      {currentScreen === 'TapYourNewPassword' && <TapYourNewPassword navigate={setCurrentScreen} />}
-
-      {currentScreen === 'ConfirmPassword' && <ConfirmPasswordScreen navigate={setCurrentScreen} />}
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        {isAuthenticated ? <HomeStackScreen /> : <AuthStackScreen />}
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;

@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, Image } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../../style.ts';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { colors, spacing, fontSizes, fonts } from '../../style';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../App'; 
 
-interface Props {
-  navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword' | 'TapYourNewPassword' | 'ConfirmPassword') => void;
-  }
+const LoginScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-const LoginScreen: React.FC<Props> = ({ navigate }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoImagen}>
@@ -22,29 +22,24 @@ const LoginScreen: React.FC<Props> = ({ navigate }) => {
         <TextInput placeholder="Password" secureTextEntry style={styles.input} />
 
         <View style={styles.containerForgot}>
-            <TouchableOpacity>
-              <Text style={styles.forgotPassword} onPress={() => navigate('ForgotPassword')}>Forgot password?</Text>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+            <Text style={styles.forgotPassword}>Forgot password?</Text>
+          </TouchableOpacity>
         </View>
-      
 
-      
-      <View style={styles.containerButton}>
-          <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigate('CreateAccount')}>
+        <View style={styles.containerButton}>
+          <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate('Home')}>
             <Text style={styles.ButtonLoginText}>Login</Text>
           </TouchableOpacity>
-      </View>
-
+        </View>
       </View>
 
       {/* Cambio de Vista a CreateAccount */}
       <View style={styles.registerContainer}>
         <Text>
-          Don’t have an account? <Text style={styles.register} onPress={() => navigate('CreateAccount')}>Register</Text>
+          Don’t have an account? <Text style={styles.register} onPress={() => navigation.navigate('CreateAccount')}>Register</Text>
         </Text>
       </View>
-
-      
     </View>
   );
 }
@@ -53,6 +48,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     justifyContent: 'center',
+    flex: 1,
+    padding: spacing.medium,
   },
   logoImagen: {
     marginVertical: spacing.medium,
@@ -61,14 +58,14 @@ const styles = StyleSheet.create({
     marginTop: spacing.large,
     justifyContent: 'center',
     alignItems: 'center',
-    display: 'flex', // Asegura que el contenedor use flexbox
-},
-logo: {
+    display: 'flex',
+  },
+  logo: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain', // Asegura que la imagen no se corte y mantenga su proporción
-    alignSelf: 'center', // Centra la imagen dentro del contenedor
-},
+    resizeMode: 'contain',
+    alignSelf: 'center',
+  },
   titleInicioSesion: {
     alignItems: 'center',
     marginVertical: spacing.medium,
@@ -92,7 +89,7 @@ logo: {
     justifyContent: 'center',
   },
   input: {
-    marginTop: spacing.small, 
+    marginTop: spacing.small,
     height: 40,
     borderWidth: 1,
     borderColor: colors.textPrimary,
@@ -100,16 +97,16 @@ logo: {
     paddingHorizontal: spacing.small,
     color: colors.primary,
     backgroundColor: colors.textPrimary,
-    borderRadius: 10, 
+    borderRadius: 10,
     width: '80%',
   },
-  containerForgot:{
+  containerForgot: {
     width: '80%',
     alignItems: 'flex-end',
   },
   forgotPassword: {
     textAlign: 'right',
-    color: colors.secondary, 
+    color: colors.secondary,
     fontWeight: 'regular',
     width: '100%',
   },
@@ -136,7 +133,6 @@ logo: {
   register: {
     fontWeight: 'bold',
     color: colors.primary,
-
   },
 });
 

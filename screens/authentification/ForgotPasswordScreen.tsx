@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Modal } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../../style.ts';
+import { colors, spacing, fontSizes, fonts } from '../../style';
+import { NavigationProp, useNavigation } from '@react-navigation/native';import { AuthStackParamList } from '../../App'; 
 
-interface Props {
-    navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword' | 'TapYourNewPassword' | 'ConfirmPassword') => void;
-    }
-
-const ForgotPasswordScreen: React.FC<Props> = ({ navigate }) => {
+const ForgotPasswordScreen = () => {
+    const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleContinue = () => {
@@ -15,7 +13,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigate }) => {
 
     const handleModalContinue = () => {
         setModalVisible(false);
-        navigate('TapYourNewPassword');
+        navigation.navigate('TapYourNewPassword');
     };
 
     return (

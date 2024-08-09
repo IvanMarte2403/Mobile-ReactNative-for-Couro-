@@ -1,57 +1,45 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, Image, ScrollView } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../../style.ts';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import { colors, spacing, fontSizes, fonts } from '../../style';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { AuthStackParamList } from '../../App'; 
 
-interface Props {
-  navigate: (screen: 'Login' | 'CreateAccount' | 'ForgotPassword' | 'TapYourNewPassword' | 'ConfirmPassword') => void;
-  }
-
-const CreateAccountScreen: React.FC<Props> = ({ navigate }) => {
+const CreateAccountScreen = () => {
+  const navigation = useNavigation<NavigationProp<AuthStackParamList>>();  
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-
-        <View style={styles.container}>
-          <View style={styles.logoImagen}>
-            <Image source={require('../../img/logo/logo.png')} style={styles.logo} />
+      <View style={styles.container}>
+        <View style={styles.logoImagen}>
+          <Image source={require('../../img/logo/logo.png')} style={styles.logo} />
+        </View>
+        <View style={styles.titleInicioSesion}>
+          <Text style={styles.title}>
+            Let’s start by creating your <Text style={styles.highlight}>account</Text>
+          </Text>
+        </View>
+        <View style={styles.containerForms}>
+          <TouchableOpacity style={styles.uploadCircle}>
+            <Text style={styles.uploadText}>Upload</Text>
+          </TouchableOpacity>
+          <TextInput placeholder="Full Name" style={styles.input} />
+          <TextInput placeholder="Email" style={styles.input} />
+          <TextInput placeholder="Password" secureTextEntry style={styles.input} />
+          <TextInput placeholder="Repeat password" secureTextEntry style={styles.input} />
+          <View style={styles.containerButton}>
+            <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.ButtonLoginText}>Create Account</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.titleInicioSesion}>
-            <Text style={styles.title}>
-              Let´s start by creating your <Text style={styles.highlight}>account</Text>
+          <View style={styles.registerContainer}>
+            <Text>
+              Already have an account? <Text style={styles.Login} onPress={() => navigation.navigate('Login')}>Login</Text>
             </Text>
           </View>
-          <View style={styles.containerForms}>
-
-            <TouchableOpacity style={styles.uploadCircle}>
-              <Text style={styles.uploadText}>Upload</Text>
-            </TouchableOpacity>
-              <TextInput placeholder="Full Name" style={styles.input} />
-              <TextInput placeholder="Email" secureTextEntry style={styles.input} />
-              <TextInput placeholder="Password" secureTextEntry style={styles.input} />
-              <TextInput placeholder="Repeat password" secureTextEntry style={styles.input} />
-
-              <View style={styles.containerButton}>
-                  <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigate('CreateAccount')}>
-                    <Text style={styles.ButtonLoginText}>Creat Account</Text>
-                  </TouchableOpacity>
-              </View>
-
-
-              <View style={styles.registerContainer}>
-                <Text>
-                  Already have an account? <Text style={styles.Login} onPress={() => navigate('Login')}>Login</Text>
-                </Text>
-              </View>
-          </View>
-
-         
-
         </View>
-
+      </View>
     </ScrollView>
-
-          
   );
-}
+};
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
@@ -73,14 +61,14 @@ const styles = StyleSheet.create({
     marginTop: spacing.large,
     justifyContent: 'center',
     alignItems: 'center',
-    display: 'flex', // Asegura que el contenedor use flexbox
-},
-logo: {
+    display: 'flex',
+  },
+  logo: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain', // Asegura que la imagen no se corte y mantenga su proporción
-    alignSelf: 'center', // Centra la imagen dentro del contenedor
-},
+    resizeMode: 'contain',
+    alignSelf: 'center',
+  },
   titleInicioSesion: {
     alignItems: 'center',
     marginVertical: spacing.medium,
@@ -104,7 +92,7 @@ logo: {
     justifyContent: 'center',
   },
   input: {
-    marginTop: spacing.small, 
+    marginTop: spacing.small,
     height: 40,
     borderWidth: 1,
     borderColor: colors.textPrimary,
@@ -112,7 +100,7 @@ logo: {
     paddingHorizontal: spacing.small,
     color: colors.primary,
     backgroundColor: colors.textPrimary,
-    borderRadius: 10, 
+    borderRadius: 10,
     width: '80%',
   },
   containerButton: {
