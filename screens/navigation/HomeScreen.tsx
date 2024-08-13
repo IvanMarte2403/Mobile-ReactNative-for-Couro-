@@ -4,7 +4,9 @@ import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AuthStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
+import { faSearch} from '@fortawesome/free-solid-svg-icons/faSearch'
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -13,31 +15,26 @@ const HomeScreen = () => {
 
     return (
         <View style={styles.container}>
+        <ScrollView>
+            {/* ===============Header================= */}
             <View style={styles.containerHeader}>
                 <View style={styles.containerText}>
                     <Text style={styles.title}>
-                    Your {"\n"}<Text style={styles.highlight}>patients</Text>
+                        Your {"\n"}<Text style={styles.highlight}>patients</Text>
                     </Text>
                 </View>
-                
-                {/* ===============Header================= */}
                 <View style={styles.containerImage}>
-
-                    <View
-                        style={styles.circleContainer}
-                    >
+                    <View style={styles.circleContainer}>
                         <Image
-                        source={require('../../img/icons/profile.png')}
-                        resizeMode = 'contain'
-                        style ={styles.imageIcon}
-                        >
-                        </Image>
+                            source={require('../../img/icons/profile.png')}
+                            resizeMode='contain'
+                            style={styles.imageIcon}
+                        />
                     </View>
-                    
-
                 </View>
             </View>
 
+            {/* ===============Search================= */}
             <View style={styles.containerSearch}>
                 <FontAwesomeIcon icon={faSearch} size={20} color={colors.primary} style={styles.searchIcon} />
                 <TextInput
@@ -45,9 +42,73 @@ const HomeScreen = () => {
                     placeholderTextColor={colors.theriary}
                     style={styles.searchInput}
                 />
-    </View>
-            
+            </View>
+
+            {/* =================Patients============= */}
+            <View style={styles.containerPatients}>
+                <View style={styles.rowPatients}>
+                    <View style={styles.patient}>
+                        <Text style={styles.textPatient}>
+                            Robert Green
+                        </Text>
+                        <Text style={styles.datePacient}>
+                            Last Appointment: 16 Dec
+                        </Text>
+                    </View>
+                    <View style={styles.patient}>
+                        <Text style={styles.textPatient}>
+                            Robert Green
+                        </Text>
+                        <Text style={styles.datePacient}>
+                            Last Appointment: 16 Dec
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.rowPatients}>
+                    <View style={styles.patient}>
+                        <Text style={styles.textPatient}>
+                            Robert Green
+                        </Text>
+                        <Text style={styles.datePacient}>
+                            Last Appointment: 16 Dec
+                        </Text>
+                    </View>
+                    <View style={styles.patient}>
+                        <Text style={styles.textPatient}>
+                            Robert Green
+                        </Text>
+                        <Text style={styles.datePacient}>
+                            Last Appointment: 16 Dec
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.rowPatients}>
+                    <View style={styles.patient}>
+                        <Text style={styles.textPatient}>
+                            Robert Green
+                        </Text>
+                        <Text style={styles.datePacient}>
+                            Last Appointment: 16 Dec
+                        </Text>
+                    </View>
+                    <View style={styles.patient}>
+                        <Text style={styles.textPatient}>
+                            Robert Green
+                        </Text>
+                        <Text style={styles.datePacient}>
+                            Last Appointment: 16 Dec
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        </ScrollView>
+
+        {/* ===============Floating Button================= */}
+        <View style={styles.floatingButtonContainer}>
+            <FontAwesomeIcon icon={faPlus} size={30} color={colors.primary} />
         </View>
+    </View>
+    
     );
 }
 
@@ -193,8 +254,63 @@ const styles = StyleSheet.create({
         color: colors.primary,
         paddingVertical: 0, // Para alinear el texto verticalmente con el ícono
       },
-    
-   
+
+    // ============Patients==============
+
+    containerPatients: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: colors.theriary,
+        flexDirection: 'column',
+    },
+
+    rowPatients: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: spacing.medium,
+    },
+
+    patient: {
+        width: '48%',
+        height: 150,
+        backgroundColor: colors.textPrimary,
+        borderRadius: 10,
+        textAlign: 'center',
+        justifyContent: 'flex-end',
+        alignItems: 'baseline',
+    },
+    textPatient:{
+        color: colors.primary,
+        fontSize: fontSizes.small,
+        fontWeight: '500',
+        padding: spacing.small,
+        paddingBottom: 0,
+    },
+    datePacient:{
+        color: colors.primary,
+        fontSize: fontSizes.tiny,
+        fontWeight: '400',
+        padding: spacing.small,
+        paddingTop: 0,
+    },
+    floatingButtonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: colors.secondary,
+        borderRadius: 8,
+        width: 50,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
+
 
 });
 

@@ -9,11 +9,11 @@ export const colors = {
     primary: '#000',
     secondary: '#FFBE2C',
     theriary: '#FFFF',
-    textPrimary: '#D9D9D9',
+    textPrimary: '#D9D9D9', //Gray 
     textSecondary: 'blue',
   };
   
- // Función para calcular valores responsivos
+ // Function to calculate responsive numbers
 const responsiveValue = (value: number) => {
     const baseWidth = 375; // Ancho base (puedes ajustar esto según tus necesidades)
     return (value / baseWidth) * width;
@@ -27,6 +27,8 @@ const responsiveValue = (value: number) => {
   };
   
   export const fontSizes = {
+    xs: responsiveValue(5),
+    tiny: responsiveValue(10),
     small: responsiveValue(14),
     medium: responsiveValue(24),
     large: responsiveValue(32),
