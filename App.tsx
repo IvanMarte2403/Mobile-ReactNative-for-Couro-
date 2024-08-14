@@ -14,6 +14,7 @@ import ConfirmPasswordScreen from './screens/authentification/ConfirmPasswordScr
 
 // HomeViews
 import HomeScreen from './screens/navigation/HomeScreen';
+import PatientCreation from './screens/navigation/PatientCreation';
 
 // Defyne the type of routes
 export type AuthStackParamList = {
@@ -22,10 +23,11 @@ export type AuthStackParamList = {
   ForgotPassword: undefined;
   TapYourNewPassword: undefined;
   ConfirmPassword: undefined;
-};
+}; 
 
 export type HomeStackParamList = {
   Home: undefined;
+  PatientCreation: undefined;
 };
 
 export type RootStackParamList = AuthStackParamList & HomeStackParamList;
@@ -50,6 +52,13 @@ const HomeStackScreen = () => (
       component={HomeScreen} 
       options={{ headerShown: false }} 
     />
+
+    <HomeStack.Screen 
+      name="PatientCreation" 
+      component={PatientCreation} 
+      options={{ headerShown: false }}
+    />
+    
   </HomeStack.Navigator>
 );
 

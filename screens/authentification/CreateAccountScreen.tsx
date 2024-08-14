@@ -12,11 +12,14 @@ const CreateAccountScreen = () => {
         <View style={styles.logoImagen}>
           <Image source={require('../../img/logo/logo.png')} style={styles.logo} />
         </View>
+
+        {/* Titulo Inicial */}
         <View style={styles.titleInicioSesion}>
           <Text style={styles.title}>
             Let’s start by creating your <Text style={styles.highlight}>account</Text>
           </Text>
         </View>
+        {/* Container Forms */}
         <View style={styles.containerForms}>
           <TouchableOpacity style={styles.uploadCircle}>
             <Text style={styles.uploadText}>Upload</Text>
