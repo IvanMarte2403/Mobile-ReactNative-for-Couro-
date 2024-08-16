@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSortDown, faSort, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSortDown, faSort, faPlus, faHome } from '@fortawesome/free-solid-svg-icons';
 
-import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import  styles from './style/patientScreenStyles';
 
 
@@ -143,6 +142,7 @@ const PatientScreen = () => {
             {/* ===============Floating Button================= */}
             <TouchableOpacity
                 style={styles.floatingButtonContainer}
+                onPress={() => navigation.navigate('NewTraining')}
                 >
                 <FontAwesomeIcon icon={faPlus} size={30} color={colors.primary} />
             </TouchableOpacity>

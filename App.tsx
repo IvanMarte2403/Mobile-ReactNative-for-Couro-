@@ -19,6 +19,10 @@
   //Patients Views
 
   import PatientScreen from './screens/patientCreation/patient';
+  
+  //Training
+
+  import NewTraining from './screens/patientCreation/NewTraining';
 
   // Defyne the type of routes
   export type AuthStackParamList = {
@@ -33,6 +37,7 @@
     Home: undefined;
     PatientCreation: undefined;
     Patient: undefined;
+    NewTraining: undefined;
   };
 
 
@@ -71,6 +76,11 @@
         component={PatientScreen} 
         options={{ headerShown: false }}
       />
+
+      <HomeStack.Screen 
+            name="NewTraining" 
+            component={NewTraining} 
+          />
     </HomeStack.Navigator>
 
   );

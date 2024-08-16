@@ -2,9 +2,8 @@
 
 import { faMediumM } from '@fortawesome/free-brands-svg-icons';
 import { Dimensions } from 'react-native';
-
 const { width } = Dimensions.get('window');
-
+import Svg, {  Defs, LinearGradient, Stop } from 'react-native-svg';
 
 export const colors = {
     primary: '#000',
@@ -12,6 +11,8 @@ export const colors = {
     theriary: '#FFFF',
     textPrimary: '#D9D9D9', //Gray 
     textSecondary: '#EA635C', //Red 
+    gradientPrimary: ['#FF4242', '#992727'], // Gradiente Rojo
+
   };
   
  // Function to calculate responsive numbers
@@ -39,4 +40,28 @@ const responsiveValue = (value: number) => {
   
   export const fonts = {
     bold: 'Inter-Bold',
+  };
+
+  export const GradientText = ({ text }) => {
+    return (
+      <View style={styles.container}>
+        <Svg height="60" width="300">
+          <Defs>
+            <LinearGradient id="grad" x1="0" y1="0" x2="100%" y2="0">
+              <Stop offset="0%" stopColor="#f12711" stopOpacity="1" />
+              <Stop offset="100%" stopColor="#f5af19" stopOpacity="1" />
+            </LinearGradient>
+          </Defs>
+          <Text
+            fill="url(#grad)"
+            fontSize="40"
+            fontWeight="bold"
+            x="0"
+            y="40"
+          >
+            {text}
+          </Text>
+        </Svg>
+      </View>
+    );
   };
