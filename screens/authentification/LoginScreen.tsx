@@ -4,6 +4,8 @@ import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { AuthContext } from '../../App';
+
+
 const LoginScreen = () => {
 
   const { signIn } = useContext(AuthContext);

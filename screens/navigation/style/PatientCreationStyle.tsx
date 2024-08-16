@@ -6,7 +6,6 @@ import { colors, spacing, fontSizes, fonts } from '../../../style';
 export const styles = StyleSheet.create({
     scrollViewContainer: {
         flexGrow: 1,
-        justifyContent: 'center',
     },
     container: {
         flex: 1,
@@ -106,10 +105,9 @@ export const styles = StyleSheet.create({
     },
 
     // Icons
-
-    icon:{
-        marginRight: spacing.small,
-    }
+    icon: {
+        color: colors.secondary,
+    },
 });
 
 export default styles;

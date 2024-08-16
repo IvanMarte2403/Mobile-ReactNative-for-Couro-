@@ -79,14 +79,15 @@ function App(): React.JSX.Element {
 
   return (
     <AuthContext.Provider value={{ signIn }}>
-      <NavigationContainer>
-        <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          {isAuthenticated ? <HomeStackScreen /> : <AuthStackScreen />}
-        </SafeAreaView>
-      </NavigationContainer>
-    </AuthContext.Provider>
-  );
+    <NavigationContainer>
+      <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        {isAuthenticated ? <HomeStackScreen /> : <AuthStackScreen />}
+      </SafeAreaView>
+    </NavigationContainer>
+  </AuthContext.Provider>
+);
+
 }
 
 export { AuthContext };

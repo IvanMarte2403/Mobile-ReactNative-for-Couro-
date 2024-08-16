@@ -28,7 +28,7 @@ const HomeScreen = () => {
                     <View style={styles.containerImage}>
                         <TouchableOpacity 
                         style={styles.circleContainer}
-                        onPress={() => navigation.navigate('PatienCreation')}
+                        onPress={() => navigation.navigate('PatientCreation')}
                         >
                             <Image
                                 source={require('../../img/icons/profile.png')}
