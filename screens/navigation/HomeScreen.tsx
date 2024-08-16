@@ -51,59 +51,73 @@ const HomeScreen = () => {
 
                 {/* =================Patients============= */}
                 <View style={styles.containerPatients}>
+
+                    {/* Row Patients */}
                     <View style={styles.rowPatients}>
-                        <View style={styles.patient}>
+                        {/* Patient */}
+                        <TouchableOpacity 
+                        style={styles.patient}
+                        onPress={() => navigation.navigate('Patient')}
+                        >
                             <Text style={styles.textPatient}>
                                 Robert Green
                             </Text>
                             <Text style={styles.datePacient}>
                                 Last Appointment: 16 Dec
                             </Text>
-                        </View>
-                        <View style={styles.patient}>
+                        </TouchableOpacity>
+                        
+                        {/* Patient */}
+                        <TouchableOpacity style={styles.patient}>
                             <Text style={styles.textPatient}>
                                 Robert Green
                             </Text>
                             <Text style={styles.datePacient}>
                                 Last Appointment: 16 Dec
                             </Text>
-                        </View>
+                        </TouchableOpacity>
+
                     </View>
+
+                    {/* Row Patients */}
                     <View style={styles.rowPatients}>
-                        <View style={styles.patient}>
+                        <TouchableOpacity style={styles.patient}>
                             <Text style={styles.textPatient}>
                                 Robert Green
                             </Text>
                             <Text style={styles.datePacient}>
                                 Last Appointment: 16 Dec
                             </Text>
-                        </View>
-                        <View style={styles.patient}>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.patient}>
                             <Text style={styles.textPatient}>
                                 Robert Green
                             </Text>
                             <Text style={styles.datePacient}>
                                 Last Appointment: 16 Dec
                             </Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
+                    
+                    {/* Row Patients */}
                     <View style={styles.rowPatients}>
-                        <View style={styles.patient}>
+                        <TouchableOpacity style={styles.patient}>
                             <Text style={styles.textPatient}>
                                 Robert Green
                             </Text>
                             <Text style={styles.datePacient}>
                                 Last Appointment: 16 Dec
                             </Text>
-                        </View>
-                        <View style={styles.patient}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.patient}>
                             <Text style={styles.textPatient}>
                                 Robert Green
                             </Text>
                             <Text style={styles.datePacient}>
                                 Last Appointment: 16 Dec
                             </Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
@@ -182,7 +196,10 @@ const HomeScreen = () => {
 
                         {/* Forms Button */}
                         <View style={styles.containerButton}>
-                            <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate('Login')}>
+                            <TouchableOpacity 
+                            style={styles.ButtonLogin} 
+                            onPress={() => setModalVisible(false)}
+                            >
                             <Text style={styles.ButtonLoginText}>Create Patient</Text>
                             </TouchableOpacity>
                         </View>
@@ -195,7 +212,7 @@ const HomeScreen = () => {
                 </View>
             </Modal>
         </View>
-    );
+    );  
 };
 
 

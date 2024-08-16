@@ -1,5 +1,6 @@
 // styles.ts
 
+import { faMediumM } from '@fortawesome/free-brands-svg-icons';
 import { Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -30,6 +31,7 @@ const responsiveValue = (value: number) => {
     xs: responsiveValue(5),
     tiny: responsiveValue(10),
     small: responsiveValue(14),
+    smedium: responsiveValue(20),
     medium: responsiveValue(24),
     large: responsiveValue(32),
     xl: responsiveValue(40),

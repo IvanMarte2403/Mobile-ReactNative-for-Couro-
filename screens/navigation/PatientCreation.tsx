@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { AuthStackParamList } from '../../App'; 
+import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 
 import styles from './style/PatientCreationStyle';  
 
 const PatientCreation = () => {
-    const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     return (
         <View style={styles.container}>
@@ -21,10 +21,15 @@ const PatientCreation = () => {
                             Your {"\n"}<Text style={styles.highlight}>settings</Text>
                         </Text>
                     </View>
+
                     <View style={styles.containerImage}>
-                        <View style={styles.circleContainer}>
+                        {/* Circle Home */}
+                        <TouchableOpacity 
+                        style={styles.circleContainer}
+                        onPress={() => navigation.navigate('Home')}
+                        >
                             <FontAwesomeIcon icon={faHome} size={40} color={colors.secondary} />
-                        </View>
+                        </TouchableOpacity>
                     </View>
             </View>
 
