@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { AuthStackParamList } from '../../App'; 
+import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import styles from './style/HomeScreenStyles';
 
 const HomeScreen = () => {
-    const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
+    // Navigation
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    // Modal
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -23,13 +26,16 @@ const HomeScreen = () => {
                         </Text>
                     </View>
                     <View style={styles.containerImage}>
-                        <View style={styles.circleContainer}>
+                        <TouchableOpacity 
+                        style={styles.circleContainer}
+                        onPress={() => navigation.navigate('PatienCreation')}
+                        >
                             <Image
                                 source={require('../../img/icons/profile.png')}
                                 resizeMode='contain'
                                 style={styles.imageIcon}
                             />
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
