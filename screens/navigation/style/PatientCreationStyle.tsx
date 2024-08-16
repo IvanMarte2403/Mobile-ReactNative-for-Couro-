@@ -104,10 +104,94 @@ export const styles = StyleSheet.create({
 
     },
 
-    // Icons
-    icon: {
-        color: colors.secondary,
+    // Personal Information
+
+    personalInformation: {
+        width: '100%',
+        borderRadius: 20,
+        marginTop: spacing.large,
+        fontSize: fontSizes.medium,
     },
+    titlePersonalInformation: {
+        color: colors.primary,
+        fontSize: fontSizes.small,
+        paddingBottom: spacing.medium,
+    },
+
+    containerInformation: {
+        borderBottomColor: colors.primary,
+        borderBottomWidth: 0.5,
+
+    },
+    // FormularioYourSetting
+    containerForms: {
+        marginTop: spacing.small,
+        marginVertical: spacing.medium,
+        justifyContent: 'center',
+      },
+      input: {
+        marginTop: spacing.small,
+        height: 40,
+        borderWidth: 1,
+        borderColor: colors.textPrimary,
+        marginBottom: spacing.small,
+        paddingHorizontal: spacing.small,
+        color: colors.primary,
+        backgroundColor: colors.textPrimary,
+        borderRadius: 10,
+        width: '80%',
+      },
+      uploadCircle: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: colors.textPrimary,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: spacing.medium,
+      },
+      uploadText: {
+        color: colors.primary,
+        fontSize: fontSizes.small,
+        fontFamily: fonts.bold,
+      },
+      textEdit: {
+        fontWeight: '400',
+        fontSize: fontSizes.small,
+        color: colors.primary,
+      },
+
+    //   BottonsContainer
+      bottonsContainer:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: spacing.medium,
+      },
+      buttonChange:{
+        backgroundColor: colors.theriary,
+        borderRadius: 10,
+        paddingVertical: 10,
+        borderColor: colors.secondary,
+        borderWidth: 1, 
+      },
+      buttonChangeRed:{
+        backgroundColor: colors.textSecondary,
+        borderRadius: 10,
+        paddingVertical: 10,
+        borderColor: colors.secondary,
+        borderWidth: 1, 
+      },
+      changeText:{
+        color: colors.primary,
+        fontWeight: '500',
+        paddingTop: 0,
+        paddingRight: spacing.medium,
+        paddingBottom: 0,
+        paddingLeft: spacing.medium,
+      }
+
+
+   
 });
 
 export default styles;

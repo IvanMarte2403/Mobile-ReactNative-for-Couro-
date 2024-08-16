@@ -7,10 +7,10 @@ const { width } = Dimensions.get('window');
 
 export const colors = {
     primary: '#000',
-    secondary: '#FFBE2C',
+    secondary: '#FFBE2C', //Yellow
     theriary: '#FFFF',
     textPrimary: '#D9D9D9', //Gray 
-    textSecondary: 'blue',
+    textSecondary: '#EA635C', //Red 
   };
   
  // Function to calculate responsive numbers

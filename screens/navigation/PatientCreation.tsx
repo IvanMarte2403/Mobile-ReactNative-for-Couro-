@@ -26,8 +26,52 @@ const PatientCreation = () => {
                             <FontAwesomeIcon icon={faHome} size={40} color={colors.secondary} />
                         </View>
                     </View>
+            </View>
+
+            {/* Personal Information */}
+
+            <View style={styles.personalInformation}>
+                <View style={styles.containerInformation}>
+                    <Text style={styles.titlePersonalInformation}>Personal Information</Text>
                 </View>
 
+                <View style={styles.containerForms}>
+                    <TouchableOpacity style={styles.uploadCircle}>
+                    </TouchableOpacity>
+                    <Text style={styles.textEdit}>
+                        Edit Photo
+                    </Text>
+                    <TextInput placeholder="Name" style={styles.input} />
+                    <TextInput placeholder="Password" style={styles.input} />
+                </View>
+            </View>
+
+            {/* Account Actions */}
+
+            <View style={styles.containerInformation}>
+                    <Text style={styles.titlePersonalInformation}>Account Actions</Text>
+            </View>
+
+            <View
+                style={styles.bottonsContainer}
+            >
+                <TouchableOpacity
+                style={styles.buttonChange}
+                >
+                    <Text  style={styles.changeText}>
+                        Change PassWord
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                style={styles.buttonChangeRed}
+                >
+                    <Text  style={styles.changeText}>
+                        Change PassWord
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        
         </ScrollView>
 
         </View>
