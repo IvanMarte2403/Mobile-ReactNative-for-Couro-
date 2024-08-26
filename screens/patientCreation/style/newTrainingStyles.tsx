@@ -132,8 +132,6 @@ export const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     },
-
-    // Gradiente
     maskedView: {
         flex: 1,
         justifyContent: 'center',

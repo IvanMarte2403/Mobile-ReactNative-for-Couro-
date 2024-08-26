@@ -42,26 +42,3 @@ const responsiveValue = (value: number) => {
     bold: 'Inter-Bold',
   };
 
-  export const GradientText = ({ text }) => {
-    return (
-      <View style={styles.container}>
-        <Svg height="60" width="300">
-          <Defs>
-            <LinearGradient id="grad" x1="0" y1="0" x2="100%" y2="0">
-              <Stop offset="0%" stopColor="#f12711" stopOpacity="1" />
-              <Stop offset="100%" stopColor="#f5af19" stopOpacity="1" />
-            </LinearGradient>
-          </Defs>
-          <Text
-            fill="url(#grad)"
-            fontSize="40"
-            fontWeight="bold"
-            x="0"
-            y="40"
-          >
-            {text}
-          </Text>
-        </Svg>
-      </View>
-    );
-  };

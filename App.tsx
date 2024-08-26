@@ -49,9 +49,21 @@
 
   const AuthStackScreen = () => (
     <AuthStack.Navigator initialRouteName="Login">
-      <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="CreateAccount" component={CreateAccountScreen} />
-      <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+      <AuthStack.Screen name="Login" component={LoginScreen} 
+          options={{ headerShown: false }} 
+
+      />
+      <AuthStack.Screen
+       name="CreateAccount" 
+       component={CreateAccountScreen}
+       options={{ headerShown: false }} 
+
+        />
+      <AuthStack.Screen name="ForgotPassword"
+       component={ForgotPasswordScreen} 
+       options={{ headerShown: false }} 
+
+       />
       <AuthStack.Screen name="TapYourNewPassword" component={TapYourNewPassword} />
       <AuthStack.Screen name="ConfirmPassword" component={ConfirmPasswordScreen} />
     </AuthStack.Navigator>
