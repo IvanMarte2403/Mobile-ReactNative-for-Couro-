@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../../style'; 
 import { text } from '@fortawesome/fontawesome-svg-core';
 import { width } from '@fortawesome/free-solid-svg-icons/faSearch';
+import { faZ } from '@fortawesome/free-solid-svg-icons';
 
 export const styles = StyleSheet.create({
     scrollViewContainer: {
@@ -25,7 +26,6 @@ export const styles = StyleSheet.create({
     },
     titleContainer: {
         alignItems: 'center',
-        marginVertical: spacing.medium,
     },
     title: {
         fontSize: fontSizes.xl,
@@ -37,7 +37,6 @@ export const styles = StyleSheet.create({
     },
     containerButton: {
         width: '80%',
-        marginTop: spacing.large,
     },
     ButtonLogin: {
         backgroundColor: colors.secondary,
@@ -54,7 +53,6 @@ export const styles = StyleSheet.create({
     },
     registerContainer: {
         alignItems: 'center',
-        marginVertical: spacing.medium,
     },
     login: {
         fontWeight: 'bold',
@@ -62,9 +60,7 @@ export const styles = StyleSheet.create({
     },
     logoImagen: {
         alignItems: 'center',
-        marginVertical: spacing.medium,
         height: '10%',
-        marginTop: spacing.small,
     },
     logo: {
         width: '100%',
@@ -110,11 +106,10 @@ export const styles = StyleSheet.create({
 
     personalInformation:{
         width: '100%',
-        marginTop: spacing.medium,
     },
 
     textInformation:{
-        width: '70%',
+        width: '100%',
         fontSize: fontSizes.smedium,
         fontStyle: 'italic',
         color: colors.primary,
@@ -175,7 +170,7 @@ export const styles = StyleSheet.create({
     rowEntries:{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: spacing.medium,
+        marginBottom: spacing.medium,
     },
     containerEntry: {
         borderColor: colors.secondary,
@@ -213,6 +208,14 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5,
     },
+    trainingTitle: {
+        fontSize: fontSizes.medium,
+        color: colors.primary,
+        fontWeight: '700',
+        marginBottom: spacing.medium,
+        marginTop: spacing.medium,
+    },
+    
 
 
 

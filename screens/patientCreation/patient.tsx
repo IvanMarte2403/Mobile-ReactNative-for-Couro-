@@ -42,6 +42,11 @@ const PatientScreen = () => {
                         <Text style={styles.title}>
                             {route.params?.patientName || "Patient"} {"\n"}
                         </Text>
+
+                        <Text style={styles.textInformation}>
+                        {`Height: ${route.params?.height} ● Weight: ${route.params?.weight} lbs`}
+                        </Text>
+
                     </View>
 
                     <View style={styles.containerImage}>
@@ -56,24 +61,88 @@ const PatientScreen = () => {
 
                 {/* Personal Information */}    
                 <View style={styles.personalInformation}>
+                   
+
+                    <Text style={styles.textInformationSmall}>
+                        {`: ${route.params?.birthdate}`}
+                    </Text>
+                  
                     {sessionData ? (
                         <>
-                            <Text style={styles.textInformation}>
-                                {sessionData.data.gender} <Text style={styles.highlight}> ● </Text> 
-                                {sessionData.data.height} <Text style={styles.highlight}> ● </Text>
-                                {sessionData.data.weight} lbs
-                            </Text>
-                            <Text style={styles.textInformationSmall}>
-                                {sessionData.data.age} Years old  <Text style={styles.highlight}> ● </Text> 
-                                {sessionData.data.birthdate}
-                            </Text>
+                       
                         </>
                     ) : (
                         <Text>Loading...</Text>
                     )}
                 </View>
 
-                {/* Mostrar más información aquí según los datos de `sessionData` */}
+                <View style={styles.scoreContainer}>
+                <Image
+                source={require('../../img/recursos/YourScoreImage.png')}
+                resizeMode='contain'
+                style={styles.scoreImage}
+                >
+
+                </Image>
+                </View>
+                
+                <View style={styles.containerEntries}>
+
+                        <Text style={styles.trainingTitle}>
+                            Training  Entries
+                        </Text>     
+                    {/* Row Entries */}
+                    <View style={styles.rowEntries}>
+                        {/* Entry */}
+                        <View style={styles.containerEntry}>
+                            <Text style={styles.titleEnty}>
+                                Running Score: 20
+                            </Text>
+
+                            <Text style={styles.textEnty}>
+                                Dec 20.2023
+                            </Text>
+                        </View>
+                        {/* Entry */}
+                        <View style={styles.containerEntry}>
+                            <Text style={styles.titleEnty}>
+                                Running Score: 20
+                            </Text>
+
+                            <Text style={styles.textEnty}>
+                                Dec 20.2023
+                            </Text>
+                        </View>
+                        
+                    </View>
+
+                    {/* Row Entries */}
+                    <View style={styles.rowEntries}>
+                        {/* Title Entry */}
+                                       
+                        {/* Entry */}
+                        <View style={styles.containerEntry}>
+                            <Text style={styles.titleEnty}>
+                                Running Score: 20
+                            </Text>
+
+                            <Text style={styles.textEnty}>
+                                Dec 20.2023
+                            </Text>
+                        </View>
+                        {/* Entry */}
+                        <View style={styles.containerEntry}>
+                            <Text style={styles.titleEnty}>
+                                Running Score: 20
+                            </Text>
+
+                            <Text style={styles.textEnty}>
+                                Dec 20.2023
+                            </Text>
+                        </View>
+                        
+                    </View>
+                </View>
             </ScrollView>
 
             {/* ===============Floating Button================= */}

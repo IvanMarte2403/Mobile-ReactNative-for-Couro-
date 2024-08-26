@@ -36,7 +36,7 @@
   export type HomeStackParamList = {
     Home: undefined;
     PatientCreation: undefined;
-    Patient: { patientId: string , patientName: string}; 
+    Patient: { patientId: string , patientName: string, birthdate: string, height: string, weight: string; };
     NewTraining: undefined;
   };
 

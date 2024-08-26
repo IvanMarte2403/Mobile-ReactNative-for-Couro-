@@ -99,7 +99,13 @@ const HomeScreen = () => {
                                     {/* Primer paciente en la fila */}
                                     <TouchableOpacity 
                                         style={styles.patient}
-                                        onPress={() => navigation.navigate('Patient', { patientId: patient.patient_id , patientName: patient.fullname})}
+                                        onPress={() => navigation.navigate('Patient', { 
+                                            patientId: patient.patient_id,
+                                            patientName: patient.fullname,
+                                            height: patient.height,
+                                            weight: patient.weight,
+                                            birthdate: patient.birthdate
+                                        })}
                                     >
                                         <Text style={styles.textPatient}>
                                             {patient.fullname}
@@ -115,16 +121,19 @@ const HomeScreen = () => {
                                        style={styles.patient}
                                        onPress={() => navigation.navigate('Patient', { 
                                            patientId: patients[index + 1].patient_id,
-                                           patientName: patients[index + 1].fullname
+                                           patientName: patients[index + 1].fullname,
+                                           height: patients[index + 1].height,
+                                           weight: patients[index + 1].weight,
+                                           birthdate: patients[index + 1].birthdate
                                        })}
-                                         >
-                                            <Text style={styles.textPatient}>
-                                                {patients[index + 1].fullname}
-                                            </Text>
-                                            <Text style={styles.datePacient}>
-                                                {patients[index + 1].birthdate}
-                                            </Text>
-                                        </TouchableOpacity>
+                                   >
+                                       <Text style={styles.textPatient}>
+                                           {patients[index + 1].fullname}
+                                       </Text>
+                                       <Text style={styles.datePacient}>
+                                           {patients[index + 1].birthdate}
+                                       </Text>
+                                   </TouchableOpacity>
                                     )}
                 </View>
             );
