@@ -32,12 +32,12 @@ const HomeScreen = () => {
             try {
                 const data = await fetchTrainerPatients(baseUrl, trainerId);
                 console.log('Received data:', data);
-
                 // Obtener detalles de cada paciente
                 const patientsWithDetails: Patient[] = await Promise.all(
                     data.data.map(async (patient: Patient) => {
                         const patientDetails = await fetchPatientDetails(baseUrl, patient.patient_id);
-                        return patientDetails.data[0]; // Suponiendo que los detalles están en la primera posición del array
+                    
+                        return patientDetails.data[0]; 
                     })
                 );
 
@@ -99,7 +99,7 @@ const HomeScreen = () => {
                                     {/* Primer paciente en la fila */}
                                     <TouchableOpacity 
                                         style={styles.patient}
-                                        onPress={() => navigation.navigate('Patient')}
+                                        onPress={() => navigation.navigate('Patient', { patientId: patient.patient_id , patientName: patient.fullname})}
                                     >
                                         <Text style={styles.textPatient}>
                                             {patient.fullname}
@@ -111,10 +111,13 @@ const HomeScreen = () => {
 
                                     {/* Segundo paciente en la fila, si existe */}
                                     {patients[index + 1] && (
-                                        <TouchableOpacity 
-                                            style={styles.patient}
-                                            onPress={() => navigation.navigate('Patient')}
-                                        >
+                                       <TouchableOpacity 
+                                       style={styles.patient}
+                                       onPress={() => navigation.navigate('Patient', { 
+                                           patientId: patients[index + 1].patient_id,
+                                           patientName: patients[index + 1].fullname
+                                       })}
+                                         >
                                             <Text style={styles.textPatient}>
                                                 {patients[index + 1].fullname}
                                             </Text>
@@ -123,12 +126,13 @@ const HomeScreen = () => {
                                             </Text>
                                         </TouchableOpacity>
                                     )}
-                                </View>
-                            );
-                        }
-                        return null;
-                    })}
                 </View>
+            );
+        }
+        return null;
+    })}
+</View>
+
             </ScrollView>
 
             {/* ===============Floating Button================= */}
@@ -151,11 +155,7 @@ const HomeScreen = () => {
                     <View style={styles.modalContent}>
                         {/* Titulo Modal */}
                         <Text style={styles.modalText}>New patient</Text>
-                        {/* Input Photo */}
-                        <TouchableOpacity style={styles.uploadCircle}>
-                            <Text style={styles.uploadText}>Photo</Text>
-                        </TouchableOpacity>
-
+              
                         {/* Forms */}
                         <View style={styles.containerForms}>
                             <TextInput placeholder="Full Name" style={styles.input} />
