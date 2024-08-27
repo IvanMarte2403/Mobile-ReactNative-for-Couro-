@@ -9,10 +9,29 @@ import styles from './style/patientScreenStyles';
 import { fetchPatientSessions } from '../../services/apiPatientSessions';
 
 const PatientScreen = () => {
+
+    type Session = {
+        session: {
+            session_date: string;
+        };
+        score: {
+            couro_score: string;
+            shoulder_score: string;
+            hip_score: string;
+            elbow_score: string;
+            knee_score: string;
+        };
+    };
+    
+    type SessionData = {
+        data: Session[];
+        message: string;
+    };
+
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const route = useRoute<RouteProp<RootStackParamList, 'Patient'>>();
 
-    const [sessionData, setSessionData] = useState<any>(null);
+    const [sessionData, setSessionData] = useState<SessionData | null>(null);
     const baseUrl = 'http://10.0.2.2:8000';
 
     useEffect(() => {
@@ -61,91 +80,73 @@ const PatientScreen = () => {
 
                 {/* Personal Information */}    
                 <View style={styles.personalInformation}>
-                   
-
                     <Text style={styles.textInformationSmall}>
                         {`: ${route.params?.birthdate}`}
                     </Text>
-                  
-                    {sessionData ? (
-                        <>
-                       
-                        </>
-                    ) : (
-                        <Text>Loading...</Text>
-                    )}
                 </View>
 
+                {/* Score Container */}
                 <View style={styles.scoreContainer}>
-                <Image
-                source={require('../../img/recursos/YourScoreImage.png')}
-                resizeMode='contain'
-                style={styles.scoreImage}
-                >
-
-                </Image>
+                    <Image
+                    source={require('../../img/recursos/YourScoreImage.png')}
+                    resizeMode='contain'
+                    style={styles.scoreImage}
+                    />
                 </View>
-                
+
+                {/* Training Entries */}
                 <View style={styles.containerEntries}>
+                    <Text style={styles.trainingTitle}>
+                        Training Entries
+                    </Text>
 
-                        <Text style={styles.trainingTitle}>
-                            Training  Entries
-                        </Text>     
-                    {/* Row Entries */}
-                    <View style={styles.rowEntries}>
-                        {/* Entry */}
-                        <View style={styles.containerEntry}>
-                            <Text style={styles.titleEnty}>
-                                Running Score: 20
-                            </Text>
+                    {sessionData?.data?.reduce((result, item, index, array) => {
+                        if (index % 2 === 0) {
+                            result.push(array.slice(index, index + 2));
+                        }
+                        return result;
+                    }, [] as Session[][]).map((pair, pairIndex) => (
+                        <View style={styles.rowEntries} key={pairIndex}>
+                            {pair.map((item, itemIndex) => (
+                                <View style={styles.containerEntry} key={itemIndex}>
+                                    <View>
+                                        <Text style={styles.titleEnty}>
+                                            Running Score:
+                                        </Text>
+                                        <Text style={styles.scoreEntry}>
+                                            {parseFloat(item.score.couro_score).toFixed(2)}
+                                        </Text>
+                                    </View>
+                                    <Text style={styles.textEnty}>
+                                        {item.session.session_date}
+                                    </Text>
 
-                            <Text style={styles.textEnty}>
-                                Dec 20.2023
-                            </Text>
+                                    <View style={styles.entyInformation}>
+                                        <View style={styles.entyRow}>
+                                            <Text style={styles.upInformation}>
+                                                Shoulder: {'\n'}{parseFloat(item.score.shoulder_score).toFixed(2)} 
+                                            </Text>
+                                            <Text style={styles.upInformation}>
+                                                Hip: {'\n'}{parseFloat(item.score.hip_score).toFixed(2)}
+                                            </Text>
+                                        </View>
+                                        <View style={styles.entyRow}>
+                                            <Text style={styles.upInformation}>
+                                                Elbow: {'\n'}{parseFloat(item.score.elbow_score).toFixed(2)} 
+                                            </Text>
+                                            <Text style={styles.upInformation}>
+                                                Knee: {'\n'}{parseFloat(item.score.knee_score).toFixed(2)}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            ))}
                         </View>
-                        {/* Entry */}
-                        <View style={styles.containerEntry}>
-                            <Text style={styles.titleEnty}>
-                                Running Score: 20
-                            </Text>
-
-                            <Text style={styles.textEnty}>
-                                Dec 20.2023
-                            </Text>
-                        </View>
-                        
-                    </View>
-
-                    {/* Row Entries */}
-                    <View style={styles.rowEntries}>
-                        {/* Title Entry */}
-                                       
-                        {/* Entry */}
-                        <View style={styles.containerEntry}>
-                            <Text style={styles.titleEnty}>
-                                Running Score: 20
-                            </Text>
-
-                            <Text style={styles.textEnty}>
-                                Dec 20.2023
-                            </Text>
-                        </View>
-                        {/* Entry */}
-                        <View style={styles.containerEntry}>
-                            <Text style={styles.titleEnty}>
-                                Running Score: 20
-                            </Text>
-
-                            <Text style={styles.textEnty}>
-                                Dec 20.2023
-                            </Text>
-                        </View>
-                        
-                    </View>
+                    ))}
                 </View>
             </ScrollView>
 
-            {/* ===============Floating Button================= */}
+            {/* Floating Button */}
             <TouchableOpacity
                 style={styles.floatingButtonContainer}
                 onPress={() => navigation.navigate('NewTraining')}

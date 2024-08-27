@@ -179,18 +179,41 @@ export const styles = StyleSheet.create({
         padding: spacing.medium,
         borderRadius: 10,
     },
-    textEnty:{
+    textEnty: {
         fontSize: fontSizes.small,
         color: colors.primary,
         fontWeight: '400',
         fontStyle: 'italic',
         marginTop: spacing.small,
+        borderBottomWidth: 0.6, // Ancho del borde inferior
+        borderBottomColor: colors.primary, // Color del borde inferior
+        paddingBottom: spacing.small,
+    },
+    entyInformation:{
+        width: '100%',
+        flexDirection: 'column',
+    },
+    upInformation:{
+        width: '47%',
+        fontSize: fontSizes.tiny,
+        textAlign: 'left',
+        marginTop: spacing.small,
+    },
+    entyRow:{
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
     },
     titleEnty:{
         fontSize: fontSizes.smedium,
         color: colors.primary,
-        fontWeight: '600',
-        fontStyle: 'italic',
+        fontWeight: '400',
+    },
+
+    scoreEntry:{
+        fontWeight: '800',
+        fontSize: fontSizes.medium,
+        color: colors.primary,
     },
     floatingButtonContainer: {
         position: 'absolute',
