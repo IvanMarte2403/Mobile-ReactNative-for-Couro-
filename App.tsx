@@ -23,6 +23,7 @@
   //Training
 
   import NewTraining from './screens/patientCreation/NewTraining';
+  import TrainingSession from './screens/patientCreation/TrainingSession';
 
   // Defyne the type of routes
   export type AuthStackParamList = {
@@ -38,7 +39,16 @@
     PatientCreation: undefined;
     Patient: { patientId: string , patientName: string, birthdate: string, height: string, weight: string; };
     NewTraining: undefined;
-  };
+    TrainingSession: {
+      couro_score: string;
+      shoulder_score: string;
+      elbow_score: string;
+      hip_score: string;
+      knee_score: string;
+      pose_video_url: string;
+      stride_video_url: string;
+      completion: string;
+  };  };
 
 
 
@@ -92,6 +102,12 @@
       <HomeStack.Screen 
             name="NewTraining" 
             component={NewTraining} 
+          />
+
+          
+      <HomeStack.Screen 
+            name="TrainingSession" 
+            component={TrainingSession} 
           />
     </HomeStack.Navigator>
 

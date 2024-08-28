@@ -13,12 +13,15 @@ const PatientScreen = () => {
     type Session = {
         session: {
             session_date: string;
+            pose_video: { url: string };
+            stride_video: { url: string };
+            completion: string;
         };
         score: {
             couro_score: string;
             shoulder_score: string;
-            hip_score: string;
             elbow_score: string;
+            hip_score: string;
             knee_score: string;
         };
     };
@@ -51,6 +54,19 @@ const PatientScreen = () => {
     
         loadPatientSessions();
     }, [route.params?.patientId]);
+
+    const handleSessionClick = (session: Session) => {
+        navigation.navigate('TrainingSession', {
+            couro_score: session.score.couro_score,
+            shoulder_score: session.score.shoulder_score,
+            elbow_score: session.score.elbow_score,
+            hip_score: session.score.hip_score,
+            knee_score: session.score.knee_score,
+            pose_video_url: session.session.pose_video.url,
+            stride_video_url: session.session.stride_video.url,
+            completion: session.session.completion,
+        });
+    };
 
     return(
         <View style={styles.container}>
@@ -108,7 +124,11 @@ const PatientScreen = () => {
                     }, [] as Session[][]).map((pair, pairIndex) => (
                         <View style={styles.rowEntries} key={pairIndex}>
                             {pair.map((item, itemIndex) => (
-                                <View style={styles.containerEntry} key={itemIndex}>
+                                <TouchableOpacity
+                                    style={styles.containerEntry}
+                                    key={itemIndex}
+                                    onPress={() => handleSessionClick(item)}
+                                >
                                     <View>
                                         <Text style={styles.titleEnty}>
                                             Running Score:
@@ -139,7 +159,7 @@ const PatientScreen = () => {
                                             </Text>
                                         </View>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             ))}
                         </View>
                     ))}
@@ -158,3 +178,4 @@ const PatientScreen = () => {
 }
 
 export default PatientScreen;
+    
