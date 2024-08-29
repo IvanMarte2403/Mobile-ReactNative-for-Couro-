@@ -192,8 +192,30 @@ export const styles = StyleSheet.create({
     },
     containerVideo: {
         marginTop: spacing.medium
-    }
+    },
 
+    // Insights
+    
+    containerInsights:{
+        marginTop: spacing.medium,
+    },
+    titleInsights:{
+        color: colors.primary,
+        fontWeight: '700',
+        fontSize: fontSizes.medium,
+    },
+    textInsights:{
+        marginTop: spacing.medium,
+    },
+    bottonShow:{
+    color: colors.primary, 
+    marginTop: spacing.medium,
+    padding: spacing.small,
+    width: '26%',
+    borderRadius: 20,
+    backgroundColor: colors.secondary,
+    marginBottom: spacing.medium,
+    }
 
 });
 

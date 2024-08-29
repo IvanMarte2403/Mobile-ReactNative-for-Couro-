@@ -238,8 +238,26 @@ export const styles = StyleSheet.create({
         marginBottom: spacing.medium,
         marginTop: spacing.medium,
     },
-    
-
+    // NoTrainingSession
+    NoTrainingTitle: {
+        textAlign: 'center',
+        fontSize: fontSizes.medium,
+        width: '70%',
+        fontWeight: '800',
+        color: colors.primary,
+        marginBottom: spacing.tiny,
+    },
+    NoTrainingText:{
+        color: colors.primary,
+        width: '70%',
+        textAlign: 'center',
+        marginBottom: spacing.medium,
+    },
+    containerNoTraining:{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 
 
 });

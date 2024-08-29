@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { colors } from '../../style';
 import { NavigationProp, useNavigation, useRoute, RouteProp } from '@react-navigation/native';
@@ -72,12 +72,33 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ value, maxVal
     );
 };
 
+// Extrae el texto relevante a partir de "What is the Couro Run Score?"
+const extractRelevantText = (text: string): string => {
+    const start = text.indexOf('What is the Couro Run Score?');
+    return start !== -1 ? text.slice(start) : text;
+};
+
+// Formatea el texto para aplicar negritas donde hay ** **
+const formatTextWithBold = (text: string): JSX.Element => {
+    const parts = text.split('**').map((part, index) => {
+        return index % 2 === 1 ? <Text key={index} style={{ fontWeight: 'bold' }}>{part}</Text> : <Text key={index}>{part}</Text>;
+    });
+    return <>{parts}</>;
+};
+
 const TrainingSession = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const route = useRoute<RouteProp<{ params: TrainingSessionParams }, 'params'>>(); // Usar useRoute con tipos definidos
 
-    const { couro_score, elbow_score, knee_score, shoulder_score, hip_score, stride_video_url } = route.params; // Desestructurar valores
+    const { couro_score, elbow_score, knee_score, shoulder_score, hip_score, stride_video_url, completion } = route.params; // Desestructurar valores
     const maxValue = 100;
+
+    const [showFullText, setShowFullText] = useState(false);
+
+    const relevantText = extractRelevantText(completion);
+    const wordLimit = 100;
+    const words = relevantText.split(' ');
+    const displayedText = words.slice(0, wordLimit).join(' ');
 
     return (
         <View style={styles.container}>
@@ -160,6 +181,24 @@ const TrainingSession = () => {
                         resizeMode="contain"  // Ajustar el video dentro del contenedor
                     />
                 </View>
+                
+                {/* Contenedor Insights */}
+                <View style={styles.containerInsights}>
+                    <Text style={styles.titleInsights}>
+                        Couro Insights
+                    </Text>
+
+                    <Text style={styles.textInsights}>
+                        {formatTextWithBold(showFullText ? relevantText : displayedText)}
+                    </Text>
+
+                    {words.length > wordLimit && !showFullText && (
+                        <TouchableOpacity onPress={() => setShowFullText(true)}>
+                            <Text style={styles.bottonShow}>Show More</Text>
+                        </TouchableOpacity>
+                    )}
+                </View>
+
             </ScrollView>
         </View>
     );

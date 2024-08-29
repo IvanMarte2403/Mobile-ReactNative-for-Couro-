@@ -68,7 +68,7 @@ const PatientScreen = () => {
         });
     };
 
-    return(
+    return (
         <View style={styles.container}>
             <ScrollView>
                 {/* Header */}
@@ -116,53 +116,69 @@ const PatientScreen = () => {
                         Training Entries
                     </Text>
 
-                    {sessionData?.data?.reduce((result, item, index, array) => {
-                        if (index % 2 === 0) {
-                            result.push(array.slice(index, index + 2));
-                        }
-                        return result;
-                    }, [] as Session[][]).map((pair, pairIndex) => (
-                        <View style={styles.rowEntries} key={pairIndex}>
-                            {pair.map((item, itemIndex) => (
-                                <TouchableOpacity
-                                    style={styles.containerEntry}
-                                    key={itemIndex}
-                                    onPress={() => handleSessionClick(item)}
-                                >
-                                    <View>
-                                        <Text style={styles.titleEnty}>
-                                            Running Score:
+                    {sessionData && sessionData.data?.length > 0 ? (
+                        sessionData.data.reduce((result, item, index, array) => {
+                            if (index % 2 === 0) {
+                                result.push(array.slice(index, index + 2));
+                            }
+                            return result;
+                        }, [] as Session[][]).map((pair, pairIndex) => (
+                            <View style={styles.rowEntries} key={pairIndex}>
+                                {pair.map((item, itemIndex) => (
+                                    <TouchableOpacity
+                                        style={styles.containerEntry}
+                                        key={itemIndex}
+                                        onPress={() => handleSessionClick(item)}
+                                    >
+                                        <View>
+                                            <Text style={styles.titleEnty}>
+                                                Running Score:
+                                            </Text>
+                                            <Text style={styles.scoreEntry}>
+                                                {parseFloat(item.score.couro_score).toFixed(2)}
+                                            </Text>
+                                        </View>
+                                        <Text style={styles.textEnty}>
+                                            {item.session.session_date}
                                         </Text>
-                                        <Text style={styles.scoreEntry}>
-                                            {parseFloat(item.score.couro_score).toFixed(2)}
-                                        </Text>
-                                    </View>
-                                    <Text style={styles.textEnty}>
-                                        {item.session.session_date}
-                                    </Text>
 
-                                    <View style={styles.entyInformation}>
-                                        <View style={styles.entyRow}>
-                                            <Text style={styles.upInformation}>
-                                                Shoulder: {'\n'}{parseFloat(item.score.shoulder_score).toFixed(2)} 
-                                            </Text>
-                                            <Text style={styles.upInformation}>
-                                                Hip: {'\n'}{parseFloat(item.score.hip_score).toFixed(2)}
-                                            </Text>
+                                        <View style={styles.entyInformation}>
+                                            <View style={styles.entyRow}>
+                                                <Text style={styles.upInformation}>
+                                                    Shoulder: {'\n'}{parseFloat(item.score.shoulder_score).toFixed(2)} 
+                                                </Text>
+                                                <Text style={styles.upInformation}>
+                                                    Hip: {'\n'}{parseFloat(item.score.hip_score).toFixed(2)}
+                                                </Text>
+                                            </View>
+                                            <View style={styles.entyRow}>
+                                                <Text style={styles.upInformation}>
+                                                    Elbow: {'\n'}{parseFloat(item.score.elbow_score).toFixed(2)} 
+                                                </Text>
+                                                <Text style={styles.upInformation}>
+                                                    Knee: {'\n'}{parseFloat(item.score.knee_score).toFixed(2)}
+                                                </Text>
+                                            </View>
                                         </View>
-                                        <View style={styles.entyRow}>
-                                            <Text style={styles.upInformation}>
-                                                Elbow: {'\n'}{parseFloat(item.score.elbow_score).toFixed(2)} 
-                                            </Text>
-                                            <Text style={styles.upInformation}>
-                                                Knee: {'\n'}{parseFloat(item.score.knee_score).toFixed(2)}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        ))
+                    ) : (
+                        <View style={styles.containerNoTraining}>
+                            <Image
+                                source={require('../../img/recursos/running.png')}
+                                style={{ width: '100%', height: 200 }}
+                                resizeMode="contain"
+                            />
+                            <Text style={styles.NoTrainingTitle}>
+                                There are no training sessions
+                            </Text>
+                            <Text style={styles.NoTrainingText}>
+                                Create your first one to get in-depth insights and improve your run
+                            </Text>
                         </View>
-                    ))}
+                    )}
                 </View>
             </ScrollView>
 
@@ -178,4 +194,3 @@ const PatientScreen = () => {
 }
 
 export default PatientScreen;
-    
