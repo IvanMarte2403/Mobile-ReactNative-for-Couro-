@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../../style';
+import { View, Text, TextInput, Modal, TouchableOpacity, ScrollView } from 'react-native';
+import { colors } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
-import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
+import { faSearch, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'; // Importa faXmark
 import styles from './style/HomeScreenStyles';
 
 // Api
 import { fetchTrainerPatients } from '../../services/apiServicePatient';
-
-import {fetchPatientDetails} from '../../services/apiPatient';
+import { fetchPatientDetails } from '../../services/apiPatient';
+import { createPatient } from '../../services/createPatientApi';
 
 interface Patient {
     patient_id: string;
@@ -24,23 +23,26 @@ interface Patient {
 
 const HomeScreen = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [newPatientFullName, setNewPatientFullName] = useState('');
+    const [newPatientBirthdate, setNewPatientBirthdate] = useState('');
+    const [newPatientHeight, setNewPatientHeight] = useState('');
+    const [newPatientWeight, setNewPatientWeight] = useState('');
+
     const baseUrl = 'http://10.0.2.2:8000';
     const trainerId = 'trainerid';  
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {
         const getPatients = async () => {
             try {
                 const data = await fetchTrainerPatients(baseUrl, trainerId);
-                console.log('Received data:', data);
-                // Obtener detalles de cada paciente
                 const patientsWithDetails: Patient[] = await Promise.all(
                     data.data.map(async (patient: Patient) => {
                         const patientDetails = await fetchPatientDetails(baseUrl, patient.patient_id);
-                    
                         return patientDetails.data[0]; 
                     })
                 );
-
                 setPatients(patientsWithDetails);
             } catch (error) {
                 console.error('Error fetching patients:', error);
@@ -50,16 +52,28 @@ const HomeScreen = () => {
         getPatients();
     }, []);
 
-    // Navigation
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const handleCreatePatient = async () => {
+        try {
+            await createPatient(baseUrl, trainerId, newPatientFullName, newPatientBirthdate, parseFloat(newPatientHeight), parseFloat(newPatientWeight));
+            setModalVisible(false);
 
-    // Modal
-    const [modalVisible, setModalVisible] = useState(false);
+            const data = await fetchTrainerPatients(baseUrl, trainerId);
+            const patientsWithDetails: Patient[] = await Promise.all(
+                data.data.map(async (patient: Patient) => {
+                    const patientDetails = await fetchPatientDetails(baseUrl, patient.patient_id);
+                    return patientDetails.data[0];
+                })
+            );
+            setPatients(patientsWithDetails);
+        } catch (error) {
+            console.error('Error creating patient:', error);
+        }
+    };
 
     return (
         <View style={styles.container}>
             <ScrollView>
-                {/* ===============Header================= */}
+                {/* Header */}
                 <View style={styles.containerHeader}>
                     <View style={styles.containerText}>
                         <Text style={styles.title}>
@@ -68,19 +82,15 @@ const HomeScreen = () => {
                     </View>
                     <View style={styles.containerImage}>
                         <TouchableOpacity 
-                        style={styles.circleContainer}
-                        onPress={() => navigation.navigate('PatientCreation')}
+                            style={styles.circleContainer}
+                            onPress={() => navigation.navigate('PatientCreation')}
                         >
-                            <Image
-                                source={require('../../img/icons/profile.png')}
-                                resizeMode='contain'
-                                style={styles.imageIcon}
-                            />
+                            <FontAwesomeIcon icon={faPlus} size={30} color={colors.primary} />
                         </TouchableOpacity>
                     </View>
                 </View>
 
-                {/* ===============Search================= */}
+                {/* Search */}
                 <View style={styles.containerSearch}>
                     <FontAwesomeIcon icon={faSearch} size={20} color={colors.primary} style={styles.searchIcon} />
                     <TextInput
@@ -90,13 +100,12 @@ const HomeScreen = () => {
                     />
                 </View>
 
-                {/* =================Patients============= */}
+                {/* Patients */}
                 <View style={styles.containerPatients}>
                     {patients.map((patient, index) => {
                         if (index % 2 === 0) {
                             return (
                                 <View style={styles.rowPatients} key={index}>
-                                    {/* Primer paciente en la fila */}
                                     <TouchableOpacity 
                                         style={styles.patient}
                                         onPress={() => navigation.navigate('Patient', { 
@@ -115,7 +124,6 @@ const HomeScreen = () => {
                                         </Text>
                                     </TouchableOpacity>
 
-                                    {/* Segundo paciente en la fila, si existe */}
                                     {patients[index + 1] && (
                                        <TouchableOpacity 
                                        style={styles.patient}
@@ -127,24 +135,23 @@ const HomeScreen = () => {
                                            birthdate: patients[index + 1].birthdate
                                        })}
                                    >
-                                       <Text style={styles.textPatient}>
-                                           {patients[index + 1].fullname}
-                                       </Text>
-                                       <Text style={styles.datePacient}>
-                                           {patients[index + 1].birthdate}
-                                       </Text>
-                                   </TouchableOpacity>
+                                   <Text style={styles.textPatient}>
+                                       {patients[index + 1].fullname}
+                                   </Text>
+                                   <Text style={styles.datePacient}>
+                                       {patients[index + 1].birthdate}
+                                   </Text>
+                               </TouchableOpacity>
                                     )}
+                                </View>
+                            );
+                        }
+                        return null;
+                    })}
                 </View>
-            );
-        }
-        return null;
-    })}
-</View>
-
             </ScrollView>
 
-            {/* ===============Floating Button================= */}
+            {/* Floating Button */}
             <TouchableOpacity
                 style={styles.floatingButtonContainer}
                 onPress={() => setModalVisible(true)}
@@ -152,58 +159,57 @@ const HomeScreen = () => {
                 <FontAwesomeIcon icon={faPlus} size={30} color={colors.primary} />
             </TouchableOpacity>
 
-            {/* ===============Modal================= */}
+            {/* Modal for New Patient */}
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
             >
-                {/* Modal Container */}
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        {/* Titulo Modal */}
-                        <Text style={styles.modalText}>New patient</Text>
-              
-                        {/* Forms */}
+                        <View style={styles.containerX}>
+                             <TouchableOpacity onPress={() => setModalVisible(false)}>
+                                    <FontAwesomeIcon icon={faXmark} size={24} color={colors.primary} />
+
+                               </TouchableOpacity>
+                        </View>
+                            <Text style={styles.modalText}>New patient</Text>
+                          
+
                         <View style={styles.containerForms}>
-                            <TextInput placeholder="Full Name" style={styles.input} />
-                            <TextInput placeholder="Birthdate" style={styles.input} />
-
-                            <View style={styles.rowForms}>
-                                <TextInput
-                                placeholder='Gender'
-                                style={styles.inputMidForms}
-                                />
-                                <TextInput
-                                placeholder='Max Heart Rate'     
-                                style={styles.inputMidForms}
-                                />
-                            </View>
-
-                            <View style={styles.rowForms}>
-                                <TextInput
-                                placeholder='Weight (lb)'
-                                style={styles.inputMidForms}
-                                />
-                                <TextInput
-                                placeholder='Height (ft)'    
-                                style={styles.inputMidForms}
-                                />
-                            </View>
-
-                            <TextInput
-                                placeholder='Notes'
-                                style={styles.noteForms}
+                            <TextInput 
+                                placeholder="Full Name" 
+                                style={styles.input} 
+                                value={newPatientFullName} 
+                                onChangeText={setNewPatientFullName} 
                             />
-                            
-                            {/* Forms Button */}
+                            <TextInput 
+                                placeholder="Birthdate" 
+                                style={styles.input} 
+                                value={newPatientBirthdate} 
+                                onChangeText={setNewPatientBirthdate} 
+                            />
+                            <View style={styles.rowForms}>
+                                <TextInput
+                                    placeholder='Height (ft)'
+                                    style={styles.inputMidForms}
+                                    value={newPatientHeight}
+                                    onChangeText={setNewPatientHeight}
+                                />
+                                <TextInput
+                                    placeholder='Weight (lb)'
+                                    style={styles.inputMidForms}
+                                    value={newPatientWeight}
+                                    onChangeText={setNewPatientWeight}
+                                /> 
+                            </View>
                             <View style={styles.containerButton}>
                                 <TouchableOpacity 
-                                style={styles.ButtonLogin} 
-                                onPress={() => setModalVisible(false)}
+                                    style={styles.ButtonLogin} 
+                                    onPress={handleCreatePatient}
                                 >
-                                <Text style={styles.ButtonLoginText}>Create Patient</Text>
+                                    <Text style={styles.ButtonLoginText}>Create Patient</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

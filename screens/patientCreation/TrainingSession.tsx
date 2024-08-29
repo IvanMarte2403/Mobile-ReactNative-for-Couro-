@@ -90,8 +90,21 @@ const TrainingSession = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const route = useRoute<RouteProp<{ params: TrainingSessionParams }, 'params'>>(); // Usar useRoute con tipos definidos
 
-    const { couro_score, elbow_score, knee_score, shoulder_score, hip_score, stride_video_url, completion } = route.params; // Desestructurar valores
+    const { 
+        couro_score, 
+        elbow_score, 
+        knee_score, 
+        shoulder_score, 
+        hip_score, 
+        stride_video_url, 
+        completion, 
+        pose_video_url 
+    } = route.params; // Desestructurar valores
+
     const maxValue = 100;
+    const [currentVideoUrl, setCurrentVideoUrl] = useState(stride_video_url);
+    const [videoTitle, setVideoTitle] = useState("Stride Video");
+    const [buttonText, setButtonText] = useState("Show Pose Estimation Video");
 
     const [showFullText, setShowFullText] = useState(false);
 
@@ -99,6 +112,18 @@ const TrainingSession = () => {
     const wordLimit = 100;
     const words = relevantText.split(' ');
     const displayedText = words.slice(0, wordLimit).join(' ');
+
+    const handleTextPress = () => {
+        if (currentVideoUrl === stride_video_url) {
+            setCurrentVideoUrl(pose_video_url);
+            setVideoTitle("Pose Estimation");
+            setButtonText("Show Stride Video");
+        } else {
+            setCurrentVideoUrl(stride_video_url);
+            setVideoTitle("Stride Video");
+            setButtonText("Show Pose Estimation Video");
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -162,20 +187,20 @@ const TrainingSession = () => {
                 {/* Title Couro Analysis */}
                 <View style={styles.containerCouroAnalysis}>
                     <Text style={styles.titleAnalysis}>
-                        Couro Analysis
+                        {videoTitle}
                     </Text>
 
-                    <View>
+                    <TouchableOpacity onPress={handleTextPress}>
                         <Text style={styles.textAnalysis}>
-                            Stride Video
+                            {buttonText}
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 {/* Contenedor de Video */}
                 <View style={styles.containerVideo}>
                     <Video
-                        source={{ uri: stride_video_url }}  // El enlace del video
+                        source={{ uri: currentVideoUrl }}  // El enlace del video
                         style={{ width: '100%', height: 200 }}
                         controls={true}  // Mostrar controles de reproducción
                         resizeMode="contain"  // Ajustar el video dentro del contenedor

@@ -285,6 +285,22 @@ const styles = StyleSheet.create({
         fontSize: fontSizes.tiny,
         padding: spacing.small,
     },
+
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    closeIcon: {
+        width: 24,
+        height: 24,
+    },
+    containerX:{
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'flex-end',
+    }
       
 });
 
