@@ -145,6 +145,34 @@ export const styles = StyleSheet.create({
     gradient: {
         flex: 1,
     },
+    trainingTextSession:{
+        color: colors.primary,
+        fontWeight: '600',
+        fontSize: fontSizes.medium,
+        marginTop: spacing.medium,
+    },
+    couroRun:{
+        marginTop: spacing.medium,
+        textAlign: 'left',
+    },
+    containerUpdload:{
+        marginTop: spacing.large,
+    },
+    updloadVideo:{
+        borderWidth: 1,
+        borderColor: colors.secondary,
+        paddingTop: spacing.large,
+        paddingBottom: spacing.large,
+        paddingLeft: spacing.xl,
+        paddingRight: spacing.xl,
+        borderRadius: 10,
+
+    },
+    textUpload:{
+        color: colors.primary,
+        fontWeight: '500',
+
+    },
     
 });
 

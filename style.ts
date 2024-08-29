@@ -26,6 +26,7 @@ const responsiveValue = (value: number) => {
     small: responsiveValue(10),
     medium: responsiveValue(20),
     large: responsiveValue(50),
+    xl: responsiveValue(90),
   };
   
   export const fontSizes = {

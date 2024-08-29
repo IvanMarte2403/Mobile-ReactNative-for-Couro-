@@ -15,7 +15,7 @@
 
         return(
             <View style={styles.container}>
-        
+
                 <View style={styles.containerHeader}>
 
                         <View style={styles.containerText}>
@@ -43,9 +43,20 @@
                 <View style={styles.containerScore}>
                     
                     <View  style={styles.containerCouroRun}>
-                        <Text style={styles.gradientStyle}>
-                            38.1 
+                        <Text style={styles.trainingTextSession}>
+                            Couro Analysis
                         </Text>
+                        <Text style={styles.couroRun}>
+                            Unlock the power of Couro: Updload your training session for in-depth analysis and insights
+                        </Text>
+                    </View>
+
+                    <View style={styles.containerUpdload}>
+                        <View style={styles.updloadVideo}>
+                            <Text style ={styles.textUpload}>
+                                Updload video
+                            </Text>
+                        </View>
                     </View>
 
                 </View>
