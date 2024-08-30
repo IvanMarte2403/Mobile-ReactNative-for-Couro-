@@ -1,20 +1,32 @@
-import React, {useContext} from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../../style';
+import React, { useContext, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { colors } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../App'; 
 import { AuthContext } from '../../App';
 import styles from './style/LoginScreenStyle';
+import { loginUser } from '../../services/apiLogin'; // Importa la función
+import { RootStackParamList } from '../../App'; 
 
 const LoginScreen = () => {
-
   const { signIn } = useContext(AuthContext);
-
-  const handleLogin = () => {
-    signIn();
-    navigation.navigate('Home');
-  };
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+      const data = await loginUser(baseUrl, email, password);
+      console.log('Login response:', data);
+
+      signIn();
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error('Failed to log in:', error);
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -27,8 +39,19 @@ const LoginScreen = () => {
         </Text>
       </View>
       <View style={styles.containerForms}>
-        <TextInput placeholder="Email" style={styles.input} />
-        <TextInput placeholder="Password" secureTextEntry style={styles.input} />
+        <TextInput 
+          placeholder="Email" 
+          style={styles.input} 
+          value={email}
+          onChangeText={setEmail} // Vincula el valor del input
+        />
+        <TextInput 
+          placeholder="Password" 
+          secureTextEntry 
+          style={styles.input} 
+          value={password}
+          onChangeText={setPassword} // Vincula el valor del input
+        />
 
         <View style={styles.containerForgot}>
           <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
@@ -47,7 +70,6 @@ const LoginScreen = () => {
         </View>
       </View>
 
-      {/* Cambio de Vista a CreateAccount */}
       <View style={styles.registerContainer}>
         <Text>
           Don’t have an account? <Text style={styles.register} onPress={() => navigation.navigate('CreateAccount')}>Register</Text>
@@ -56,7 +78,5 @@ const LoginScreen = () => {
     </View>
   );
 }
-
-
 
 export default LoginScreen;
