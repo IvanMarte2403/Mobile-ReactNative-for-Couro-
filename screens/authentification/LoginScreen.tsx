@@ -16,16 +16,25 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
-      const data = await loginUser(baseUrl, email, password);
-      console.log('Login response:', data);
+        const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+        const data = await loginUser(baseUrl, email, password);
+        console.log('Login response:', data);
 
-      signIn();
-      navigation.navigate('Home');
+        // Extraer el access_token y el user_id
+        const accessToken = data.data.access_token;
+        const userId = data.data.user.user_id;
+
+        console.log('Access Token:', accessToken);
+        console.log('User ID:', userId);
+
+        // Navegar a Home enviando los parámetros
+        signIn();
+        navigation.navigate('Home', { accessToken, userId });
     } catch (error) {
-      console.error('Failed to log in:', error);
+        console.error('Failed to log in:', error);
     }
-  };
+};
+
 
 
   return (

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors } from '../../style';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'; // Importa faXmark
+import { faSearch, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import styles from './style/HomeScreenStyles';
 
 // Api
@@ -21,7 +21,12 @@ interface Patient {
     trainer_id: string;
 }
 
+type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
+
 const HomeScreen = () => {
+    const route = useRoute<HomeScreenRouteProp>();
+    const { accessToken, userId } = route.params;
+
     const [patients, setPatients] = useState<Patient[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [newPatientFullName, setNewPatientFullName] = useState('');
@@ -30,12 +35,13 @@ const HomeScreen = () => {
     const [newPatientWeight, setNewPatientWeight] = useState('');
 
     const baseUrl = 'http://10.0.2.2:8000';
-    const trainerId = 'trainerid';  
+    const trainerId = userId; // Usando el userId recibido como trainerId
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {
         const getPatients = async () => {
             try {
+                console.log('Access Token:', accessToken);
                 const data = await fetchTrainerPatients(baseUrl, trainerId);
                 const patientsWithDetails: Patient[] = await Promise.all(
                     data.data.map(async (patient: Patient) => {
@@ -171,12 +177,9 @@ const HomeScreen = () => {
                         <View style={styles.containerX}>
                              <TouchableOpacity onPress={() => setModalVisible(false)}>
                                     <FontAwesomeIcon icon={faXmark} size={24} color={colors.primary} />
-
                                </TouchableOpacity>
                         </View>
-                            <Text style={styles.modalText}>New patient</Text>
-                          
-
+                        <Text style={styles.modalText}>New patient</Text>
                         <View style={styles.containerForms}>
                             <TextInput 
                                 placeholder="Full Name" 
