@@ -43,6 +43,7 @@
   export type HomeStackParamList = {
     Home: {
       prueba : string,
+      userID: string,
     };
     PatientCreation: undefined;
     Patient: { patientId: string , patientName: string, birthdate: string, height: string, weight: string; };

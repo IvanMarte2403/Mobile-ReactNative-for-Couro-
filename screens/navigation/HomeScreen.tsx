@@ -26,8 +26,9 @@ type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 
 const HomeScreen = () => {
     const route = useRoute<HomeScreenRouteProp>();
-    // const { accessToken, userId } = route.params;
-    
+
+    const { prueba, userID } = route.params || {};
+
     const [patients, setPatients] = useState<Patient[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [newPatientFullName, setNewPatientFullName] = useState('');
@@ -36,8 +37,9 @@ const HomeScreen = () => {
     const [newPatientWeight, setNewPatientWeight] = useState('');
 
     const baseUrl = 'http://10.0.2.2:8000';
-    const trainerId = 'hola'; // Usando el userId recibido como trainerId
-    
+    const trainerId = userID; // Usando el userId recibido como trainerId
+    console.log('Se recibio Token', prueba);
+    console.log('Se recibio userID', userID);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {
@@ -50,7 +52,7 @@ const HomeScreen = () => {
                 console.log('Trainer ID:', trainerId);
                 // console.log('Access Token:', accessToken);
 
-                const data = await fetchTrainerPatients(baseUrl, trainerId);
+                const data = await fetchTrainerPatients(baseUrl, trainerId, prueba);
 
                 console.log('Response from fetchTrainerPatients:', data);
 
@@ -85,7 +87,7 @@ const HomeScreen = () => {
             setModalVisible(false);
 
             console.log('Fetching patients after creating new one.');
-            const data = await fetchTrainerPatients(baseUrl, trainerId);
+            const data = await fetchTrainerPatients(baseUrl, trainerId, prueba);
             console.log('Response from fetchTrainerPatients after creation:', data);
 
             const patientsWithDetails: Patient[] = await Promise.all(

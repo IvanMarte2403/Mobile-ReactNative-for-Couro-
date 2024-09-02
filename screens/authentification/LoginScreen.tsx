@@ -20,15 +20,17 @@ const LoginScreen = () => {
         const data = await loginUser(baseUrl, email, password);
         console.log('Login response:', data);
 
-        // Enviar un string de prueba
-        const prueba = "Hola soy prueba";
+        // Extraer las constantes token y userID
+        const token = data.data.token;
+        const userID = data.data.user.user_id;
 
-        console.log('Prueba:', prueba);
-        console.log('Salimos de LoginScreen');
-        
-        // Navegar a Home enviando el parámetro prueba
+        // Imprimir las constantes en la consola
+        console.log('Token:', token);
+        console.log('UserID:', userID);
+        const prueba = token;
+        // Navegar a Home enviando el parámetro token y userID si es necesario
         signIn();
-        navigation.navigate('Home', { prueba });
+        navigation.navigate('Home', { prueba, userID });
     } catch (error) {
         console.error('Failed to log in:', error);
     }

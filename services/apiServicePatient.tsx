@@ -1,8 +1,11 @@
-export const fetchTrainerPatients = async (baseUrl: string, trainerId: string) => {
+export const fetchTrainerPatients = async (baseUrl: string, trainerId: string, token: string) => {
     try {
         const response = await fetch(`${baseUrl}/patient/trainer?trainer_id=${trainerId}`, {
             method: 'GET',
-        
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
         });
 
         console.log('Response', response);
