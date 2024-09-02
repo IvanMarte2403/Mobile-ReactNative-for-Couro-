@@ -30,7 +30,10 @@
     Login: undefined;
     CreateAccount: undefined;
     ForgotPassword: undefined;
-    TapYourNewPassword: undefined;
+    TapYourNewPassword: {
+      email: string;
+      code: string;
+    };
     ConfirmPassword: undefined;
     CheckYourScreen: {
       email: string;

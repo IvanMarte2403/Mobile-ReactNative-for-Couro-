@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Modal } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
-import { NavigationProp, useNavigation } from '@react-navigation/native';import { AuthStackParamList } from '../../App'; 
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { AuthStackParamList } from '../../App';
+import { sendForgotPasswordRequest } from '../../services/ApiForgotPassword'; // Importa la función de la API
+import styles from './style/ForgotPasswordStyles';
 
 const ForgotPasswordScreen = () => {
     const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
     const [modalVisible, setModalVisible] = useState(false);
+    const [email, setEmail] = useState('');
+    const [code, setCode] = useState('');
+    const [showCodeInput, setShowCodeInput] = useState(false);
 
-    const handleContinue = () => {
-        setModalVisible(true);
+    const handleContinue = async () => {
+        try {
+            const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+            await sendForgotPasswordRequest(baseUrl, email);
+            setModalVisible(true);
+            setShowCodeInput(true);
+        } catch (error) {
+            console.error('Error sending forgot password request:', error);
+        }
     };
 
-    const handleModalContinue = () => {
-        setModalVisible(false);
-        navigation.navigate('TapYourNewPassword');
+    const handleConfirmCode = () => {
+        navigation.navigate('TapYourNewPassword', { email: email.toLowerCase(), code });
     };
 
     return (
@@ -28,10 +40,30 @@ const ForgotPasswordScreen = () => {
                     </Text>
                 </View>
                 <View style={styles.containerForms}>
-                    <TextInput placeholder="Email" style={styles.input} />
+                    <TextInput 
+                        placeholder="Email" 
+                        style={styles.input} 
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+
+                    {showCodeInput && (
+                        <TextInput 
+                            placeholder="Code" 
+                            style={styles.input} 
+                            value={code}
+                            onChangeText={setCode}
+                        />
+                    )}
+
                     <View style={styles.containerButton}>
-                        <TouchableOpacity style={styles.ButtonLogin} onPress={handleContinue}>
-                            <Text style={styles.ButtonLoginText}>Continue</Text>
+                        <TouchableOpacity 
+                            style={styles.ButtonLogin} 
+                            onPress={showCodeInput ? handleConfirmCode : handleContinue}
+                        >
+                            <Text style={styles.ButtonLoginText}>
+                                {showCodeInput ? 'Confirm Code' : 'Continue'}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -49,8 +81,11 @@ const ForgotPasswordScreen = () => {
                             <Text style={styles.modalInstructions}>
                                 We've sent you a step-by-step process to your email to recover your password.
                             </Text>
-                            <TouchableOpacity style={styles.ButtonLogin} onPress={handleModalContinue}>
-                                <Text style={styles.ButtonLoginText}>Continue</Text>
+                            <TouchableOpacity 
+                                style={styles.ButtonLogin} 
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={styles.ButtonLoginText}>OK</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -58,123 +93,6 @@ const ForgotPasswordScreen = () => {
             </View>
         </ScrollView>
     );
-}
-
-const styles = StyleSheet.create({
-    scrollViewContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-    },
-    modalInstructions: {
-        textAlign: 'center',
-        width: '70%',
-        marginTop: spacing.medium,
-        marginBottom: spacing.medium,
-    },
-    container: {
-        flex: 1,
-        padding: spacing.medium,
-        backgroundColor: '#fff',
-        width: '100%',
-        height: '100%',
-    },
-    containerShadow: {
-        backgroundColor: 'rgba(0,0,0,0.5)',
-    },
-    titleContainer: {
-        alignItems: 'center',
-        marginVertical: spacing.medium,
-    },
-    title: {
-        fontSize: fontSizes.large,
-        fontWeight: 'bold',
-        fontFamily: fonts.bold,
-        color: colors.primary,
-        marginTop: spacing.medium,
-        textAlign: 'center',
-    },
-    containerForms: {
-        marginTop: spacing.large,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    highlight: {
-        color: colors.secondary,
-    },
-    input: {
-        marginTop: spacing.small,
-        height: 40,
-        borderWidth: 1,
-        borderColor: colors.textPrimary,
-        marginBottom: spacing.small,
-        paddingHorizontal: spacing.small,
-        color: colors.primary,
-        backgroundColor: colors.textPrimary,
-        borderRadius: 10,
-        width: '80%',
-    },
-    containerButton: {
-        width: '80%',
-        marginTop: spacing.large,
-    },
-    ButtonLogin: {
-        backgroundColor: colors.secondary,
-        borderRadius: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        alignItems: 'center',
-    },
-    ButtonLoginText: {
-        color: colors.primary,
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    registerContainer: {
-        alignItems: 'center',
-        marginVertical: spacing.medium,
-    },
-    login: {
-        fontWeight: 'bold',
-        color: colors.primary,
-    },
-    logoImagen: {
-        alignItems: 'center',
-        marginVertical: spacing.medium,
-        height: '10%',
-        marginTop: spacing.small,
-    },
-    logo: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
-    },
-    modalOverlay: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    modalView: {
-        width: '100%',
-        backgroundColor: 'white',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        padding: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: -5,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    modalText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        color: colors.primary,
-    },
-});
+};
 
 export default ForgotPasswordScreen;

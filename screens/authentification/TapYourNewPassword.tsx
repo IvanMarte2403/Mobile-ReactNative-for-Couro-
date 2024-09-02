@@ -1,36 +1,91 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../../style';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { colors } from '../../style';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, RouteProp, useRoute } from '@react-navigation/native';
+import styles from './style/ForgotPasswordStyles';
+import { AuthStackParamList } from '../../App';
+import { resetPassword } from '../../services/ApiResetPassword'; // Importa la función
+
+type TapYourNewPasswordRouteProp = RouteProp<AuthStackParamList, 'TapYourNewPassword'>;
 
 const TapYourNewPassword = () => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
+    const route = useRoute<TapYourNewPasswordRouteProp>();
+
+    const { email, code } = route.params;
+
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const validatePassword = (password: string) => {
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        const isValid = hasUpperCase && hasSymbol;
+
+        if (!isValid) {
+            setErrorMessage("Password must contain at least one uppercase letter and one symbol.");
+        }
+
+        return isValid;
+    };
+
+    const handleChangePassword = async () => {
+        if (newPassword !== confirmNewPassword) {
+            setErrorMessage("Passwords do not match.");
+            return;
+        }
+
+        if (!validatePassword(newPassword)) {
+            return;
+        }
+
+        try {
+            const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+            await resetPassword(baseUrl, email, code, newPassword);
+            navigation.navigate('ConfirmPassword');
+        } catch (error) {
+            setErrorMessage('Failed to reset password. Please try again.');
+        }
+    };
 
     return (
         <SafeAreaView style={[styles.scrollViewContainer]}>
             <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-                {/* ContainerPrincipal */}
                 <View style={[styles.container]}>
-                    {/* Imagen-Couro */}
                     <View style={styles.logoImagen}>
                         <Image source={require('../../img/logo/logo.png')} style={styles.logo} />
                     </View>
-                    {/* Titulo */}
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>
                             Type your new <Text style={styles.highlight}>password</Text>
                         </Text>
                     </View>
-
-                    {/* ContainerForms */}
                     <View style={styles.containerForms}>
-                        <TextInput placeholder="New Password" style={styles.input} secureTextEntry />
-                        <TextInput placeholder="Confirm New Password" style={styles.input} secureTextEntry />
+                        <TextInput
+                            placeholder="New Password"
+                            style={styles.input}
+                            secureTextEntry
+                            value={newPassword}
+                            onChangeText={setNewPassword}
+                        />
+                        <TextInput
+                            placeholder="Confirm New Password"
+                            style={styles.input}
+                            secureTextEntry
+                            value={confirmNewPassword}
+                            onChangeText={setConfirmNewPassword}
+                        />
+                        {errorMessage ? (
+                            <Text style={{ color: 'red', marginTop: 10 }}>{errorMessage}</Text>
+                        ) : null}
 
-                        {/* Contenedor Botón */}
                         <View style={styles.containerButton}>
-                            <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate('ConfirmPassword')}>
+                            <TouchableOpacity
+                                style={styles.ButtonLogin}
+                                onPress={handleChangePassword}
+                            >
                                 <Text style={styles.ButtonLoginText}>Change Password</Text>
                             </TouchableOpacity>
                         </View>
@@ -40,91 +95,5 @@ const TapYourNewPassword = () => {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    scrollViewContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-    },
-    container: {
-        flex: 1,
-        padding: spacing.medium,
-        backgroundColor: '#fff',
-        width: '100%',
-        height: '100%',
-    },
-    containerShadow: {
-        backgroundColor: 'rgba(0,0,0,0.5)',
-    },
-    titleContainer: {
-        alignItems: 'center',
-        marginVertical: spacing.medium,
-    },
-    title: {
-        fontSize: fontSizes.large,
-        fontWeight: 'bold',
-        fontFamily: fonts.bold,
-        color: colors.primary,
-        marginTop: spacing.medium,
-        textAlign: 'center',
-    },
-    containerForms: {
-        marginTop: spacing.large,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    highlight: {
-        color: colors.secondary,
-    },
-    input: {
-        marginTop: spacing.small,
-        height: 40,
-        borderWidth: 1,
-        borderColor: colors.textPrimary,
-        marginBottom: spacing.small,
-        paddingHorizontal: spacing.small,
-        color: colors.primary,
-        backgroundColor: colors.textPrimary,
-        borderRadius: 10,
-        width: '80%',
-    },
-    containerButton: {
-        width: '80%',
-        marginTop: spacing.large,
-    },
-    // Botones
-    ButtonLogin: {
-        backgroundColor: colors.secondary,
-        borderRadius: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        alignItems: 'center',
-        width: '100%',
-    },
-    ButtonLoginText: {
-        color: colors.primary,
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    registerContainer: {
-        alignItems: 'center',
-        marginVertical: spacing.medium,
-    },
-    login: {
-        fontWeight: 'bold',
-        color: colors.primary,
-    },
-    logoImagen: {
-        alignItems: 'center',
-        marginVertical: spacing.medium,
-        height: '10%',
-        marginTop: spacing.small,
-    },
-    logo: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
-    },
-});
 
 export default TapYourNewPassword;
