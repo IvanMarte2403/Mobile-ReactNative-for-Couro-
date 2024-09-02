@@ -1,11 +1,33 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-import { colors, spacing, fontSizes, fonts } from '../../style';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { colors } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AuthStackParamList } from '../../App'; 
+import styles from './style/CreateAccountScreenStyle';
+import { createAccount } from '../../services/ApiCreateAccount'; // Importa la función
 
 const CreateAccountScreen = () => {
   const navigation = useNavigation<NavigationProp<AuthStackParamList>>();  
+
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+
+  const handleCreateAccount = async () => {
+    try {
+      const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+      const data = await createAccount(baseUrl, email, password, birthdate, name, surname);
+      console.log('Account created successfully:', data);
+
+      // Navega a la pantalla CheckYourScreen después de crear la cuenta, pasando el email
+      navigation.navigate('CheckYourScreen', { email }); 
+    } catch (error) {
+      console.error('Failed to create account:', error);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
@@ -19,17 +41,46 @@ const CreateAccountScreen = () => {
             Let’s start by creating your <Text style={styles.highlight}>account</Text>
           </Text>
         </View>
+
         {/* Container Forms */}
         <View style={styles.containerForms}>
-          <TouchableOpacity style={styles.uploadCircle}>
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-          <TextInput placeholder="Full Name" style={styles.input} />
-          <TextInput placeholder="Email" style={styles.input} />
-          <TextInput placeholder="Password" secureTextEntry style={styles.input} />
-          <TextInput placeholder="Repeat password" secureTextEntry style={styles.input} />
+          <TextInput 
+            placeholder="Name" 
+            style={styles.input} 
+            value={name} 
+            onChangeText={setName} // Vincula el valor del input con el estado
+          />
+          <TextInput 
+            placeholder="Surname" 
+            style={styles.input} 
+            value={surname} 
+            onChangeText={setSurname} // Vincula el valor del input con el estado
+          />
+          <TextInput 
+            placeholder="Email" 
+            style={styles.input} 
+            value={email} 
+            onChangeText={setEmail} // Vincula el valor del input con el estado
+          />
+          <TextInput 
+            placeholder="dd/mm/aaaa" 
+            style={styles.input} 
+            value={birthdate} 
+            onChangeText={setBirthdate} // Vincula el valor del input con el estado
+          />
+          <TextInput 
+            placeholder="Password" 
+            secureTextEntry 
+            style={styles.input} 
+            value={password} 
+            onChangeText={setPassword} // Vincula el valor del input con el estado
+          />
+
           <View style={styles.containerButton}>
-            <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity 
+              style={styles.ButtonLogin} 
+              onPress={handleCreateAccount} // Llama a la función para crear la cuenta
+            >
               <Text style={styles.ButtonLoginText}>Create Account</Text>
             </TouchableOpacity>
           </View>
@@ -43,108 +94,5 @@ const CreateAccountScreen = () => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollViewContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    padding: spacing.medium,
-    backgroundColor: '#fff',
-    width: '100%',
-    height: '100%',
-    paddingBottom: spacing.large,
-  },
-  logoImagen: {
-    marginVertical: spacing.medium,
-    width: '100%',
-    height: '10%',
-    marginTop: spacing.large,
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-  },
-  logo: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-    alignSelf: 'center',
-  },
-  titleInicioSesion: {
-    alignItems: 'center',
-    marginVertical: spacing.medium,
-  },
-  title: {
-    fontSize: fontSizes.medium,
-    fontWeight: 'bold',
-    fontFamily: fonts.bold,
-    color: colors.primary,
-    width: '80%',
-    textAlign: 'center',
-    marginTop: spacing.medium,
-  },
-  highlight: {
-    color: colors.secondary,
-  },
-  containerForms: {
-    marginTop: spacing.small,
-    marginVertical: spacing.medium,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    marginTop: spacing.small,
-    height: 40,
-    borderWidth: 1,
-    borderColor: colors.textPrimary,
-    marginBottom: spacing.small,
-    paddingHorizontal: spacing.small,
-    color: colors.primary,
-    backgroundColor: colors.textPrimary,
-    borderRadius: 10,
-    width: '80%',
-  },
-  containerButton: {
-    width: '80%',
-    marginTop: spacing.large,
-  },
-  ButtonLogin: {
-    backgroundColor: colors.secondary,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-  },
-  ButtonLoginText: {
-    color: colors.primary,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  registerContainer: {
-    alignItems: 'center',
-    marginVertical: spacing.medium,
-  },
-  Login: {
-    fontWeight: 'bold',
-    color: colors.primary,
-    marginBottom: spacing.medium,
-  },
-  uploadCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: colors.textPrimary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.medium,
-  },
-  uploadText: {
-    color: colors.primary,
-    fontSize: fontSizes.small,
-    fontFamily: fonts.bold,
-  },
-});
 
 export default CreateAccountScreen;

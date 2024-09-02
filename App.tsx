@@ -11,12 +11,12 @@
   import ForgotPasswordScreen from './screens/authentification/ForgotPasswordScreen';
   import TapYourNewPassword from './screens/authentification/TapYourNewPassword';
   import ConfirmPasswordScreen from './screens/authentification/ConfirmPasswordScreen';
-
+  import CheckYourScreen from './screens/authentification/checkYourScreen';
   // HomeViews
   import HomeScreen from './screens/navigation/HomeScreen';
   import PatientCreation from './screens/navigation/PatientCreation';
 
-  //Patients Views
+  //Patients Views 
 
   import PatientScreen from './screens/patientCreation/patient';
   
@@ -32,6 +32,9 @@
     ForgotPassword: undefined;
     TapYourNewPassword: undefined;
     ConfirmPassword: undefined;
+    CheckYourScreen: {
+      email: string;
+    };
   }; 
 
   export type HomeStackParamList = {
@@ -78,6 +81,9 @@
        />
       <AuthStack.Screen name="TapYourNewPassword" component={TapYourNewPassword} />
       <AuthStack.Screen name="ConfirmPassword" component={ConfirmPasswordScreen} />
+
+      <AuthStack.Screen name="CheckYourScreen" component={CheckYourScreen} />
+
     </AuthStack.Navigator>
   );
 
