@@ -20,22 +20,19 @@ const LoginScreen = () => {
         const data = await loginUser(baseUrl, email, password);
         console.log('Login response:', data);
 
-        // Extraer el access_token y el user_id
-        const accessToken = data.data.access_token;
-        const userId = data.data.user.user_id;
+        // Enviar un string de prueba
+        const prueba = "Hola soy prueba";
 
-        console.log('Access Token:', accessToken);
-        console.log('User ID:', userId);
-
-        // Navegar a Home enviando los parámetros
+        console.log('Prueba:', prueba);
+        console.log('Salimos de LoginScreen');
+        
+        // Navegar a Home enviando el parámetro prueba
         signIn();
-        navigation.navigate('Home', { accessToken, userId });
+        navigation.navigate('Home', { prueba });
     } catch (error) {
         console.error('Failed to log in:', error);
     }
-};
-
-
+  };
 
   return (
     <View style={styles.container}>

@@ -1,10 +1,16 @@
 export const fetchTrainerPatients = async (baseUrl: string, trainerId: string) => {
     try {
-        const response = await fetch(`${baseUrl}/patient/trainer?trainer_id=${trainerId}`);
+        const response = await fetch(`${baseUrl}/patient/trainer?trainer_id=${trainerId}`, {
+            method: 'GET',
+        
+        });
+
         console.log('Response', response);
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+
         const data = await response.json();
         return data;
     } catch (error) {

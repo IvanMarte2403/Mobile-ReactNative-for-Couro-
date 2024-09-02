@@ -21,12 +21,13 @@ interface Patient {
     trainer_id: string;
 }
 
+
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 
 const HomeScreen = () => {
     const route = useRoute<HomeScreenRouteProp>();
-    const { accessToken, userId } = route.params;
-
+    // const { accessToken, userId } = route.params;
+    
     const [patients, setPatients] = useState<Patient[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [newPatientFullName, setNewPatientFullName] = useState('');
@@ -35,42 +36,69 @@ const HomeScreen = () => {
     const [newPatientWeight, setNewPatientWeight] = useState('');
 
     const baseUrl = 'http://10.0.2.2:8000';
-    const trainerId = userId; // Usando el userId recibido como trainerId
+    const trainerId = 'hola'; // Usando el userId recibido como trainerId
+    
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {
+        console.log('Estamos en homeScreen');
+
         const getPatients = async () => {
             try {
-                console.log('Access Token:', accessToken);
+                console.log('Sending GET request with the following parameters:');
+                console.log('Base URL:', baseUrl);
+                console.log('Trainer ID:', trainerId);
+                // console.log('Access Token:', accessToken);
+
                 const data = await fetchTrainerPatients(baseUrl, trainerId);
+
+                console.log('Response from fetchTrainerPatients:', data);
+
                 const patientsWithDetails: Patient[] = await Promise.all(
                     data.data.map(async (patient: Patient) => {
+                        console.log('Fetching details for patient ID:', patient.patient_id);
                         const patientDetails = await fetchPatientDetails(baseUrl, patient.patient_id);
+                        console.log('Response from fetchPatientDetails:', patientDetails);
                         return patientDetails.data[0]; 
                     })
                 );
+
                 setPatients(patientsWithDetails);
+                console.log('Final list of patients with details:', patientsWithDetails);
             } catch (error) {
                 console.error('Error fetching patients:', error);
             }
         };
 
         getPatients();
-    }, []);
+    }, [trainerId]);
 
     const handleCreatePatient = async () => {
         try {
+            console.log('Creating patient with the following details:');
+            console.log('Full Name:', newPatientFullName);
+            console.log('Birthdate:', newPatientBirthdate);
+            console.log('Height:', newPatientHeight);
+            console.log('Weight:', newPatientWeight);
+
             await createPatient(baseUrl, trainerId, newPatientFullName, newPatientBirthdate, parseFloat(newPatientHeight), parseFloat(newPatientWeight));
             setModalVisible(false);
 
+            console.log('Fetching patients after creating new one.');
             const data = await fetchTrainerPatients(baseUrl, trainerId);
+            console.log('Response from fetchTrainerPatients after creation:', data);
+
             const patientsWithDetails: Patient[] = await Promise.all(
                 data.data.map(async (patient: Patient) => {
+                    console.log('Fetching details for patient ID:', patient.patient_id);
                     const patientDetails = await fetchPatientDetails(baseUrl, patient.patient_id);
+                    console.log('Response from fetchPatientDetails:', patientDetails);
                     return patientDetails.data[0];
                 })
             );
+
             setPatients(patientsWithDetails);
+            console.log('Updated list of patients with details:', patientsWithDetails);
         } catch (error) {
             console.error('Error creating patient:', error);
         }
