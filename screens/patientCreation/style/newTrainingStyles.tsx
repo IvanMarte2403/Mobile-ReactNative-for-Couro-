@@ -173,6 +173,16 @@ export const styles = StyleSheet.create({
         fontWeight: '500',
 
     },
+
+
+    videoPreview: {
+        marginTop: 10,
+        // Añade estilos adicionales según tus necesidades
+    },
+    videoUriText: {
+        color: colors.primary,
+        // Otros estilos
+    },
     
 });
 

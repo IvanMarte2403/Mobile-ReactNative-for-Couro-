@@ -42,7 +42,7 @@ const TapYourNewPassword = () => {
         }
 
         try {
-            const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+            const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com'; // Reemplaza con tu URL base
             await resetPassword(baseUrl, email, code, newPassword);
             navigation.navigate('ConfirmPassword');
         } catch (error) {

@@ -15,7 +15,7 @@ const ForgotPasswordScreen = () => {
 
     const handleContinue = async () => {
         try {
-            const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+            const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com'; // Reemplaza con tu URL base
             await sendForgotPasswordRequest(baseUrl, email);
             setModalVisible(true);
             setShowCodeInput(true);

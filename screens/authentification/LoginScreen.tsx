@@ -7,8 +7,12 @@ import styles from './style/LoginScreenStyle';
 import { loginUser } from '../../services/apiLogin'; // Importa la función
 import { RootStackParamList } from '../../App'; 
 
+import { TrainerContext } from '../TrainerContext';
+
 const LoginScreen = () => {
   const { signIn } = useContext(AuthContext);
+  const { setTrainerID, setToken } = useContext(TrainerContext);
+
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const [email, setEmail] = useState('');
@@ -16,7 +20,7 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-        const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+        const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com'; // Reemplaza con tu URL base
         const data = await loginUser(baseUrl, email, password);
         console.log('Login response:', data);
 
@@ -27,6 +31,11 @@ const LoginScreen = () => {
         // Imprimir las constantes en la consola
         console.log('Token:', token);
         console.log('UserID:', userID);
+
+        setTrainerID(userID);
+        setToken(token);
+
+        
         const prueba = token;
         // Navegar a Home enviando el parámetro token y userID si es necesario
         signIn();

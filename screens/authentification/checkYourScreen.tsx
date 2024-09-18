@@ -18,7 +18,7 @@ const CheckYourScreen = () => {
 
     const handleConfirmEmail = async () => {
         try {
-            const baseUrl = 'http://10.0.2.2:8000'; // Reemplaza con tu URL base
+            const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com'; // Reemplaza con tu URL base
             console.log('Sending POST request with the following parameters:');
             console.log('Email:', email);
             console.log('Code:', code);
@@ -26,6 +26,7 @@ const CheckYourScreen = () => {
             const data = await confirmEmail(baseUrl, email, code);
 
             console.log('Confirm email response:', data);
+            
 
             // Si la confirmación es exitosa, navega a la pantalla de login
             navigation.navigate('Login');

@@ -5,6 +5,8 @@
   import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
   import { Colors } from 'react-native/Libraries/NewAppScreen';
 
+  import { TrainerProvider } from './screens/TrainerContext';
+
   // AuthentificationViews
   import LoginScreen from './screens/authentification/LoginScreen';
   import CreateAccountScreen from './screens/authentification/CreateAccountScreen';
@@ -46,7 +48,7 @@
       userID: string,
     };
     PatientCreation: undefined;
-    Patient: { patientId: string , patientName: string, birthdate: string, height: string, weight: string; };
+    Patient: { patientId: string , patientName: string, birthdate: string, height: string, weight: string };
     NewTraining: undefined;
     TrainingSession: {
       couro_score: string;
@@ -144,6 +146,8 @@
     };
 
     return (
+      <TrainerProvider>
+
       <AuthContext.Provider value={{ signIn }}>
       <NavigationContainer>
         <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
@@ -152,6 +156,9 @@
         </SafeAreaView>
       </NavigationContainer>
     </AuthContext.Provider>
+
+    </TrainerProvider>
+
   );
 
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, TextInput, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors } from '../../style';
 import { NavigationProp, useNavigation, useRoute, RouteProp } from '@react-navigation/native';
@@ -12,6 +12,8 @@ import { fetchTrainerPatients } from '../../services/apiServicePatient';
 import { fetchPatientDetails } from '../../services/apiPatient';
 import { createPatient } from '../../services/createPatientApi';
 
+
+import { TrainerContext } from '../TrainerContext';
 interface Patient {
     patient_id: string;
     fullname: string;
@@ -28,6 +30,7 @@ const HomeScreen = () => {
     const route = useRoute<HomeScreenRouteProp>();
 
     const { prueba, userID } = route.params || {};
+    const { trainerID, token } = useContext(TrainerContext);
 
     const [patients, setPatients] = useState<Patient[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -36,11 +39,16 @@ const HomeScreen = () => {
     const [newPatientHeight, setNewPatientHeight] = useState('');
     const [newPatientWeight, setNewPatientWeight] = useState('');
 
-    const baseUrl = 'http://10.0.2.2:8000';
+    const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com';
     const trainerId = userID; // Usando el userId recibido como trainerId
     console.log('Se recibio Token', prueba);
     console.log('Se recibio userID', userID);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    //Checking TrainerContext retriever values in HomeScreen
+    console.log('Recovered values of the TrainerCotnext in HomeScreen');
+    console.log('trainerID:', trainerID);
+
 
     useEffect(() => {
         console.log('Estamos en homeScreen');
@@ -52,7 +60,7 @@ const HomeScreen = () => {
                 console.log('Trainer ID:', trainerId);
                 // console.log('Access Token:', accessToken);
 
-                const data = await fetchTrainerPatients(baseUrl, trainerId, prueba);
+                const data = await fetchTrainerPatients(baseUrl, trainerID, prueba);
 
                 console.log('Response from fetchTrainerPatients:', data);
 
@@ -149,7 +157,7 @@ const HomeScreen = () => {
                                             patientName: patient.fullname,
                                             height: patient.height,
                                             weight: patient.weight,
-                                            birthdate: patient.birthdate
+                                            birthdate: patient.birthdate,
                                         })}
                                     >
                                         <Text style={styles.textPatient}>
