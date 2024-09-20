@@ -18,7 +18,7 @@
     
    
 
-
+    
     const NewTraining = () => {
         const navigation = useNavigation<NavigationProp<RootStackParamList>>();
         const [videoUri, setVideoUri] = useState<string | null>(null);

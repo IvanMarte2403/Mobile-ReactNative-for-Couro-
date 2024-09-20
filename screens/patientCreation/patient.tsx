@@ -35,7 +35,12 @@ const PatientScreen = () => {
     const route = useRoute<RouteProp<RootStackParamList, 'Patient'>>();
 
     const [sessionData, setSessionData] = useState<SessionData | null>(null);
-    const baseUrl = 'http://10.0.2.2:8000';
+    const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com';
+
+    // Couro Average 
+
+    const [averageCouroScore, setAverageCouroScore] = useState<number | null>(null);
+
 
     useEffect(() => {
         const loadPatientSessions = async () => {
@@ -46,7 +51,20 @@ const PatientScreen = () => {
                     const data = await fetchPatientSessions(baseUrl, patientId);
                     console.log('Session data:', JSON.stringify(data, null, 2)); // Imprimir con formato
                     setSessionData(data);
+
+
+                    // Average Couro
+                if (data.data && data.data.length > 0) {
+                    const totalScore = data.data.reduce((acc: number, item: Session) => {
+                        const score = parseFloat(item.score.couro_score);
+                        return acc + (isNaN(score) ? 0 : score); // Maneja NaN correctamente
+                    }, 0);
+                    const averageScore = totalScore / data.data.length;
+                    setAverageCouroScore(averageScore);
                 }
+
+                }
+                
             } catch (error) {
                 console.error('Error fetching session data:', error);
             }
@@ -54,6 +72,7 @@ const PatientScreen = () => {
     
         loadPatientSessions();
     }, [route.params?.patientId]);
+
 
     const handleSessionClick = (session: Session) => {
         navigation.navigate('TrainingSession', {
@@ -103,11 +122,12 @@ const PatientScreen = () => {
 
                 {/* Score Container */}
                 <View style={styles.scoreContainer}>
-                    <Image
-                    source={require('../../img/recursos/YourScoreImage.png')}
-                    resizeMode='contain'
-                    style={styles.scoreImage}
-                    />
+                    <Text style={styles.couroTitle}>Couro Score Average</Text>
+                    <Text style={styles.scoreCouro}>
+                    {averageCouroScore !== null ? averageCouroScore.toFixed(2) : 'N/A'}
+
+
+                    </Text>
                 </View>
 
                 {/* Training Entries */}

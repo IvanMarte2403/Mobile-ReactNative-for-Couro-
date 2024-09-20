@@ -1,6 +1,7 @@
 export const fetchPatientDetails = async (baseUrl: string, patientId: string) => {
     try {
         const response = await fetch(`${baseUrl}/patient/?patient_id=${patientId}`);
+        console.log('Response: ', response);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

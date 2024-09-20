@@ -8,6 +8,8 @@ export const fetchTrainerPatients = async (baseUrl: string, trainerId: string, t
             },
         });
 
+        console.log('Response: ', response);
+
         console.log('Response', response);
 
         if (!response.ok) {

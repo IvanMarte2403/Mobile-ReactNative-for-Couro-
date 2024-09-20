@@ -128,7 +128,17 @@ export const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 300,
+        height: 150,
+    },
+    scoreCouro:{
+        fontSize: 60,
+        fontWeight: 'bold',
+        color: colors.secondary,
+    },
+    couroTitle:{
+        fontWeight: '600',
+        color: '#000',
+        fontSize: 20,
     },
 
     scoreImage:{
