@@ -18,6 +18,6 @@ export const fetchTrainerPatients = async (baseUrl: string, trainerId: string, t
         return data;
     } catch (error) {
         console.error('Error fetching trainer patients:', error);
-        throw error; // Re-lanzamos el error para manejarlo en el componente
+        throw error; 
     }
 };

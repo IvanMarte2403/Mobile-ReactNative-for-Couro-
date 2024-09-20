@@ -40,9 +40,7 @@ const HomeScreen = () => {
     const [newPatientWeight, setNewPatientWeight] = useState('');
 
     const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com';
-    const trainerId = userID; // Usando el userId recibido como trainerId
-    console.log('Se recibio Token', prueba);
-    console.log('Se recibio userID', userID);
+    const trainerId = userID; 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     //Checking TrainerContext retriever values in HomeScreen
@@ -51,15 +49,13 @@ const HomeScreen = () => {
 
 
     useEffect(() => {
-        console.log('Estamos en homeScreen');
 
         const getPatients = async () => {
             try {
                 console.log('Sending GET request with the following parameters:');
                 console.log('Base URL:', baseUrl);
-                console.log('Trainer ID:', trainerId);
                 // console.log('Access Token:', accessToken);
-
+                console.log("Primer FetchTrainer: ")
                 const data = await fetchTrainerPatients(baseUrl, trainerID, prueba);
 
                 console.log('Response from fetchTrainerPatients:', data);
@@ -81,7 +77,7 @@ const HomeScreen = () => {
         };
 
         getPatients();
-    }, [trainerId]);
+    }, [trainerID]);
 
     const handleCreatePatient = async () => {
         try {
@@ -95,7 +91,8 @@ const HomeScreen = () => {
             setModalVisible(false);
 
             console.log('Fetching patients after creating new one.');
-            const data = await fetchTrainerPatients(baseUrl, trainerId, prueba);
+            console.log('Segundo fetchTrainerPatients')
+            const data = await fetchTrainerPatients(baseUrl, trainerID, prueba);
             console.log('Response from fetchTrainerPatients after creation:', data);
 
             const patientsWithDetails: Patient[] = await Promise.all(

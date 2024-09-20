@@ -37,7 +37,6 @@ const LoginScreen = () => {
 
         
         const prueba = token;
-        // Navegar a Home enviando el parámetro token y userID si es necesario
         signIn();
         navigation.navigate('Home', { prueba, userID });
     } catch (error) {
