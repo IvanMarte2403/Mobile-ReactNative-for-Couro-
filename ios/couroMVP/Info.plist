@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+  <!-- Permiso para acceder a la cámara -->
+    <key>NSCameraUsageDescription</key>
+    <string>Esta aplicación necesita acceder a la cámara para tomar videos.</string>
+
+    <!-- Permiso para acceder al micrófono -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Esta aplicación necesita acceder al micrófono para grabar audio en los videos.</string>
+
+    <!-- Permiso para acceder a la biblioteca de fotos -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Esta aplicación necesita acceder a tu biblioteca de fotos para seleccionar videos.</string>
+
+    <!-- Permiso para guardar en la biblioteca de fotos (si es necesario) -->
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Esta aplicación necesita guardar videos en tu biblioteca de fotos.</string>
+	
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

@@ -177,12 +177,14 @@ export const styles = StyleSheet.create({
 
     videoPreview: {
         marginTop: 10,
-        // Añade estilos adicionales según tus necesidades
     },
     videoUriText: {
         color: colors.primary,
         // Otros estilos
     },
+    updloadVideoSelected: {
+        backgroundColor: 'yellow', 
+      },
     
 });
 
