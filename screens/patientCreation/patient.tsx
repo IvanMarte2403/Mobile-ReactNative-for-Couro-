@@ -120,15 +120,15 @@ const PatientScreen = () => {
                     </Text>
                 </View>
 
-                {/* Score Container */}
-                <View style={styles.scoreContainer}>
-                    <Text style={styles.couroTitle}>Couro Score Average</Text>
-                    <Text style={styles.scoreCouro}>
-                    {averageCouroScore !== null ? averageCouroScore.toFixed(2) : 'N/A'}
-
-
-                    </Text>
-                </View>
+             {/* Score Container */}
+                {averageCouroScore !== null && sessionData && sessionData.data?.length > 0 && (
+                    <View style={styles.scoreContainer}>
+                        <Text style={styles.couroTitle}>Couro Score Average</Text>
+                        <Text style={styles.scoreCouro}>
+                            {averageCouroScore.toFixed(2)}
+                        </Text>
+                    </View>
+                )}
 
                 {/* Training Entries */}
                 <View style={styles.containerEntries}>
