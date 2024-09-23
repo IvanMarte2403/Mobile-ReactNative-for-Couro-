@@ -4,7 +4,7 @@ import { colors } from '../../style';
 import { NavigationProp, useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faPlus, faXmark, faHome, faUser } from '@fortawesome/free-solid-svg-icons';
 import styles from './style/HomeScreenStyles';
 
 // Api
@@ -126,7 +126,7 @@ const HomeScreen = () => {
                             style={styles.circleContainer}
                             onPress={() => navigation.navigate('PatientCreation')}
                         >
-                            <FontAwesomeIcon icon={faPlus} size={30} color={colors.primary} />
+                            <FontAwesomeIcon icon={faUser} size={30} color={colors.primary} />
                         </TouchableOpacity>
                     </View>
                 </View>

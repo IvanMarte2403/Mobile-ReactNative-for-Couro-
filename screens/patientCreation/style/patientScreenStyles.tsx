@@ -271,8 +271,25 @@ export const styles = StyleSheet.create({
     },
     graficalContainer:{
         marginTop: 30, 
-    }
-
+    },
+    tooltip: {
+        position: 'relative',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        padding: 8,
+        borderRadius: 8,
+        zIndex: 10,
+    },
+    tooltipText: {
+        color: '#fff',
+        fontSize: 12,
+    },
+    tooltipContainer: {
+        backgroundColor: '#ffa726',
+        borderRadius: 6,
+        padding: 5,
+        position: 'absolute',
+        zIndex: 100,
+    },
 
 });
 

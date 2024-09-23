@@ -56,6 +56,7 @@ const PatientScreen = () => {
     // Couro Average 
 
     const [averageCouroScore, setAverageCouroScore] = useState<number | null>(null);
+    const [tooltipData, setTooltipData] = useState<{ date: string | null, x: number, y: number } | null>(null);
 
 
     const formatDate = (dateString: string) => {
@@ -128,9 +129,13 @@ const PatientScreen = () => {
         });
     };
 
+    
+
     return (
         <View style={styles.container}>
-            <ScrollView>
+            <ScrollView
+                onTouchStart={() => setTooltipData(null)} 
+                >
                 {/* Header */}
                 <View style={styles.containerHeader}>
                     <View style={styles.containerText}>
@@ -160,7 +165,7 @@ const PatientScreen = () => {
                         {`: ${route.params?.birthdate}`}
                     </Text>
                 </View>
-
+                
                   {/* Gráfico de Couro Score */}
                   {chartData.labels.length > 0 && (
                     <LineChart
@@ -186,8 +191,31 @@ const PatientScreen = () => {
                             },
                         }}
                         bezier
+
+                        onDataPointClick={(data) => {
+                            const date = chartData.labels[data.index];
+                            setTooltipData({ date, x: data.x, y: data.y });
+                        }}
+
+                        xLabelsOffset={999}  // Oculta completamente las etiquetas del eje X
+
                       
                     />
+                )}
+
+                {tooltipData && (
+                    <View
+                        style={[
+                            styles.tooltipContainer,
+                            {
+                                position: 'absolute',
+                                left: tooltipData.x - 30, // Ajusta el margen izquierdo
+                                top: tooltipData.y + 200,  // Ajusta la altura para que el tooltip esté arriba del punto
+                            },
+                        ]}
+                    >
+                        <Text style={styles.tooltipText}>{tooltipData.date}</Text>
+                    </View>
                 )}
 
              {/* Score Container */}
