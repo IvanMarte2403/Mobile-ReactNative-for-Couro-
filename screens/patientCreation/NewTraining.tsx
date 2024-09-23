@@ -7,6 +7,8 @@
     import { faHome } from '@fortawesome/free-solid-svg-icons';
     import { launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker';
     import { startJob } from '../../services/apiStartJob';
+    import { testJob } from '../../services/apiTestJob';  
+
     import { TrainerContext } from '../TrainerContext';
 
     import styles from './style/newTrainingStyles';
@@ -99,14 +101,23 @@
             const sessionDate = getCurrentDate();
           
             try {
-              const data = await startJob(baseUrl, trainerID, sessionDate, videoUri);
-              console.log('¡Video enviado exitosamente!');
-              // Restablecer el estado
+              let data;
+              let test = 1;
+              // Verifica si `test` es 1 o 0
+              if (test === 1) {
+                  console.log('Haciendo la consulta a testJob');
+                  data = await testJob(baseUrl);
+              } else {
+                  console.log('Haciendo la consulta a startJob');
+                  data = await startJob(baseUrl, trainerID, sessionDate, videoUri);
+              }
+  
+              console.log('¡Video enviado exitosamente!', data);
               setVideoSelected(false);
               setVideoUri(null);
-            } catch (error) {
+          } catch (error) {
               console.error('Error al enviar el video:', error);
-            }
+          }
           };
           
           

@@ -247,6 +247,7 @@ export const styles = StyleSheet.create({
         fontWeight: '700',
         marginBottom: spacing.medium,
         marginTop: spacing.medium,
+        
     },
     // NoTrainingSession
     NoTrainingTitle: {
@@ -267,6 +268,9 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    graficalContainer:{
+        marginTop: 30, 
     }
 
 

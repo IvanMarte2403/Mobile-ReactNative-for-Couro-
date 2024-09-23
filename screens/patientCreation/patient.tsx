@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { colors } from '../../style';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
@@ -7,8 +7,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus, faHome } from '@fortawesome/free-solid-svg-icons';
 import styles from './style/patientScreenStyles';
 import { fetchPatientSessions } from '../../services/apiPatientSessions';
+import { LineChart } from 'react-native-chart-kit'; 
+
+const screenWidth = Dimensions.get("window").width;
+
 
 const PatientScreen = () => {
+    
+    interface ChartData {
+        labels: string[];
+        datasets: { data: number[]; strokeWidth: number }[];
+      }
+
+        // Estado del gráfico
+    const [chartData, setChartData] = useState<ChartData>({
+        labels: [],
+        datasets: [{ data: [], strokeWidth: 2 }],
+    });
+
 
     type Session = {
         session: {
@@ -42,6 +58,14 @@ const PatientScreen = () => {
     const [averageCouroScore, setAverageCouroScore] = useState<number | null>(null);
 
 
+    const formatDate = (dateString: string) => {
+        const year = dateString.slice(0, 4);
+        const month = dateString.slice(4, 6);
+        const day = dateString.slice(6, 8);
+        return `${year}-${month}-${day}`;
+    };
+
+
     useEffect(() => {
         const loadPatientSessions = async () => {
             try {
@@ -51,6 +75,23 @@ const PatientScreen = () => {
                     const data = await fetchPatientSessions(baseUrl, patientId);
                     console.log('Session data:', JSON.stringify(data, null, 2)); // Imprimir con formato
                     setSessionData(data);
+
+
+                    // Preparar datos para el gráfico
+                    const dates = data.data.map((item: Session) => formatDate(item.session.session_date)); // Convierte las fechas
+                    const scores = data.data.map((item: Session) => parseFloat(item.score.couro_score)); // Obtiene los puntajes
+                    
+
+                        // Asignar los datos del gráfico
+                        setChartData({
+                            labels: dates,
+                            datasets: [
+                                {
+                                    data: scores,
+                                    strokeWidth: 2, 
+                                },
+                            ],
+                        });
 
 
                     // Average Couro
@@ -119,6 +160,35 @@ const PatientScreen = () => {
                         {`: ${route.params?.birthdate}`}
                     </Text>
                 </View>
+
+                  {/* Gráfico de Couro Score */}
+                  {chartData.labels.length > 0 && (
+                    <LineChart
+                        style ={styles.graficalContainer}
+                        data={chartData}
+                        width={screenWidth * 0.9} // Ajusta el ancho al 90% del ancho de la pantalla
+                        height={220}
+                        yAxisLabel="" 
+                        chartConfig={{
+                            backgroundColor: '#fff',
+                            backgroundGradientFrom: '#f8f8f8',
+                            backgroundGradientTo: '#f8f8f8',
+                            decimalPlaces: 2,
+                            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                            style: {
+                                borderRadius: 16,
+                            },
+                            propsForDots: {
+                                r: '6',
+                                strokeWidth: '2',
+                                stroke: '#ffa726',
+                            },
+                        }}
+                        bezier
+                      
+                    />
+                )}
 
              {/* Score Container */}
                 {averageCouroScore !== null && sessionData && sessionData.data?.length > 0 && (
