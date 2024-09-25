@@ -20,7 +20,7 @@ const CreateAccountScreen = () => {
       const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com'; // Reemplaza con tu URL base
       const data = await createAccount(baseUrl, email, password, birthdate, name, surname);
       console.log('Account created successfully:', data);
-
+      
       // Navega a la pantalla CheckYourScreen después de crear la cuenta, pasando el email
       navigation.navigate('CheckYourScreen', { email }); 
     } catch (error) {

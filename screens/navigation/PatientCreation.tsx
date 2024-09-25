@@ -41,11 +41,6 @@ const PatientCreation = () => {
                 </View>
 
                 <View style={styles.containerForms}>
-                    <TouchableOpacity style={styles.uploadCircle}>
-                    </TouchableOpacity>
-                    <Text style={styles.textEdit}>
-                        Edit Photo
-                    </Text>
                     <TextInput placeholder="Name" style={styles.input} />
                     <TextInput placeholder="Password" style={styles.input} />
                 </View>
@@ -72,7 +67,7 @@ const PatientCreation = () => {
                 style={styles.buttonChangeRed}
                 >
                     <Text  style={styles.changeText}>
-                        Change PassWord
+                        Delete Account
                     </Text>
                 </TouchableOpacity>
             </View>
