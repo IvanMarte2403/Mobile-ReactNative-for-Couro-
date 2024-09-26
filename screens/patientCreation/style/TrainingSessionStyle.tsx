@@ -163,6 +163,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'space-around',
         marginTop: spacing.medium,
+        marginBottom: spacing.large,
     },
     smallCircle: {
         alignItems: 'center',

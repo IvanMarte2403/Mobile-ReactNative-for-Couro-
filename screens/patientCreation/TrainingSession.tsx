@@ -25,16 +25,17 @@ type TrainingSessionParams = {
 type CircularProgressBarProps = {
     value: number;
     maxValue: number;
-    color: string;
     size?: number;
 };
 
-const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ value, maxValue, color, size = width * 0.35 }) => {
+const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ value, maxValue, size = width * 0.35 }) => {
     const strokeWidth = size * 0.07; // 7% del tamaño del círculo
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (value / maxValue) * circumference;
 
+    // Asignar color según el valor usando `getColorByValue`
+    const color = getColorByValue(value);
     // Formatear el valor: mostrar decimales solo si no son cero
     const displayValue = value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
 
@@ -86,6 +87,18 @@ const formatTextWithBold = (text: string): JSX.Element => {
     return <>{parts}</>;
 };
 
+const getColorByValue = (value: number): string => {
+    if (value > 76) {
+        return "#ffd500"; // Color para valores mayores a 76
+    } else if (value > 51) {
+        return "#ceea3f"; // Color para valores entre 51 y 76
+    } else if (value > 26) {
+        return "#ddbb61"; // Color para valores entre 26 y 51
+    } else {
+        return "#992727"; // Color para valores menores o iguales a 26
+    }
+};
+
 const TrainingSession = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const route = useRoute<RouteProp<{ params: TrainingSessionParams }, 'params'>>(); // Usar useRoute con tipos definidos
@@ -103,8 +116,8 @@ const TrainingSession = () => {
 
     const maxValue = 100;
     const [currentVideoUrl, setCurrentVideoUrl] = useState(stride_video_url);
-    const [videoTitle, setVideoTitle] = useState("Stride Video");
-    const [buttonText, setButtonText] = useState("Show Pose Estimation Video");
+    const [videoTitle, setVideoTitle] = useState("Stride");
+    const [buttonText, setButtonText] = useState("Pose");
 
     const [showFullText, setShowFullText] = useState(false);
 
@@ -167,21 +180,23 @@ const TrainingSession = () => {
                 {/* Contenedor de los cuatro círculos adicionales */}
                 <View style={styles.containerScoreAll}>
                     <View style={styles.smallCircle}>
-                        <CircularProgressBar value={parseFloat(elbow_score)} maxValue={maxValue} color="#E10000" size={width * 0.20} />
-                        <Text style={{ fontFamily: 'Inter', color: '#E10000', fontSize: 14, textAlign: 'center', marginTop: 10 }}>Elbow</Text>
-                    </View>
-                    <View style={styles.smallCircle}>
-                        <CircularProgressBar value={parseFloat(knee_score)} maxValue={maxValue} color="#A72A2A" size={width * 0.20} />
-                        <Text style={{ fontFamily: 'Inter', color: '#A72A2A', fontSize: 14, textAlign: 'center', marginTop: 10 }}>Knee</Text>
-                    </View>
-                    <View style={styles.smallCircle}>
                         <CircularProgressBar value={parseFloat(shoulder_score)} maxValue={maxValue} color="#E1B000" size={width * 0.20} />
                         <Text style={{ fontFamily: 'Inter', color: '#E1B000', fontSize: 14, textAlign: 'center', marginTop: 10 }}>Shoulder</Text>
+                    </View>
+                    <View style={styles.smallCircle}>
+                        <CircularProgressBar value={parseFloat(elbow_score)} maxValue={maxValue} color="#E10000" size={width * 0.20} />
+                        <Text style={{ fontFamily: 'Inter', color: '#E10000', fontSize: 14, textAlign: 'center', marginTop: 10 }}>Elbow</Text>
                     </View>
                     <View style={styles.smallCircle}>
                         <CircularProgressBar value={parseFloat(hip_score)} maxValue={maxValue} color="#00CEE1" size={width * 0.20} />
                         <Text style={{ fontFamily: 'Inter', color: '#00CEE1', fontSize: 14, textAlign: 'center', marginTop: 10 }}>Hip</Text>
                     </View>
+                    <View style={styles.smallCircle}>
+                        <CircularProgressBar value={parseFloat(knee_score)} maxValue={maxValue} color="#A72A2A" size={width * 0.20} />
+                        <Text style={{ fontFamily: 'Inter', color: '#A72A2A', fontSize: 14, textAlign: 'center', marginTop: 10 }}>Knee</Text>
+                    </View>
+                   
+               
                 </View>
                 
                 {/* Title Couro Analysis */}
@@ -230,3 +245,4 @@ const TrainingSession = () => {
 };
 
 export default TrainingSession;
+    
