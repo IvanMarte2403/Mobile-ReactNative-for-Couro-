@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../App';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faPlus, faXmark, faHome, faUser } from '@fortawesome/free-solid-svg-icons';
 import styles from './style/HomeScreenStyles';
+import DatePicker from 'react-native-date-picker'; // Importa el selector de fecha
 
 // Api
 import { fetchTrainerPatients } from '../../services/apiServicePatient';
@@ -36,6 +37,10 @@ const HomeScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [newPatientFullName, setNewPatientFullName] = useState('');
     const [newPatientBirthdate, setNewPatientBirthdate] = useState('');
+    const [showDatePicker, setShowDatePicker] = useState(false); // Estado para controlar la visibilidad del DatePicker
+    const [date, setDate] = useState(new Date()); // Estado para almacenar la fecha seleccionada
+
+
     const [newPatientHeight, setNewPatientHeight] = useState('');
     const [newPatientWeight, setNewPatientWeight] = useState('');
 
@@ -110,6 +115,14 @@ const HomeScreen = () => {
             console.error('Error creating patient:', error);
         }
     };
+
+    const formatDate = (date: Date) => {
+        const day = ('0' + date.getDate()).slice(-2);
+        const month = ('0' + (date.getMonth() + 1)).slice(-2); // Los meses en JavaScript empiezan desde 0
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+    
 
     return (
         <View style={styles.container}>
@@ -223,10 +236,24 @@ const HomeScreen = () => {
                                 onChangeText={setNewPatientFullName} 
                             />
                             <TextInput 
+                                onPress={() => setShowDatePicker(true)} style={styles.input}
                                 placeholder="Birthdate" 
-                                style={styles.input} 
                                 value={newPatientBirthdate} 
                                 onChangeText={setNewPatientBirthdate} 
+                            />
+
+                                {/* Date Picker */}
+                            <DatePicker
+                                modal
+                                open={showDatePicker}
+                                date={date} // Este es el estado local del componente
+                                mode="date" // Modo selector de fecha
+                                onConfirm={(selectedDate) => {
+                                    setShowDatePicker(false);
+                                    const formattedDate = formatDate(selectedDate);
+                                    setNewPatientBirthdate(formattedDate); // Actualiza la fecha formateada
+                                }}
+                                onCancel={() => setShowDatePicker(false)}
                             />
                             <View style={styles.rowForms}>
                                 <TextInput
