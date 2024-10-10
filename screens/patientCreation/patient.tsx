@@ -1,25 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { colors } from '../../style';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faHome,faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './style/patientScreenStyles';
 import { fetchPatientSessions } from '../../services/apiPatientSessions';
 import { LineChart } from 'react-native-chart-kit'; 
+import { TrainerContext } from '../TrainerContext';
+
+//Modal 
+import EditPatientModal from '../components/EditPatientModal';
 
 const screenWidth = Dimensions.get("window").width;
 
 
 const PatientScreen = () => {
-    
-    interface ChartData {
+    const { trainerID, token } = useContext(TrainerContext);
+
+    // -- Modal -- 
+
+
+     // Estado para controlar la visibilidad del modal
+     const [isModalVisible, setModalVisible] = useState(false);
+
+     const handleEditClick = () => {
+        setModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
+
+    const handleDelete = () => {
+        // Lógica para eliminar el paciente
+        console.log('Paciente eliminado');
+    };
+
+    const handleSave = (name: string, height: string, weight: string, birthdate: string) => {
+        // Lógica para guardar los cambios
+        console.log('Datos guardados:', { name, height, weight, birthdate });
+        setModalVisible(false);
+    };
+
+
+
+    // -- Gráfico --
+     interface ChartData {
         labels: string[];
         datasets: { data: number[]; strokeWidth: number }[];
       }
 
-        // Estado del gráfico
+    // Estado del gráfico
     const [chartData, setChartData] = useState<ChartData>({
         labels: [],
         datasets: [{ data: [], strokeWidth: 2 }],
@@ -148,12 +181,9 @@ const PatientScreen = () => {
                             {route.params?.patientName || "Patient"} {"\n"}
                         </Text>
 
-                   
-
                         <Text style={styles.textInformation}>
                         {`Height: ${route.params?.height} ● Weight: ${route.params?.weight} lbs`}
                         </Text>
-
                     </View>
 
                     <View style={styles.containerImage}>
@@ -163,6 +193,16 @@ const PatientScreen = () => {
                         >
                             <FontAwesomeIcon icon={faHome} size={30} color={colors.secondary} />
                         </TouchableOpacity>
+
+                        <TouchableOpacity 
+                        style={styles.bottomEdit}
+                        onPress={handleEditClick}
+
+                        >
+                            <FontAwesomeIcon icon={faEdit} size={30} color={colors.secondary} />
+                        </TouchableOpacity>
+
+
                     </View>
                 </View>
 
@@ -172,6 +212,8 @@ const PatientScreen = () => {
                         {`: ${route.params?.birthdate}`}
                     </Text>
                 </View>
+
+
                 
                   {/* Gráfico de Couro Score */}
                   {chartData.labels.length > 0 && (
@@ -305,16 +347,7 @@ const PatientScreen = () => {
                         </View>
                     )}
                 </View>
-                {/* Options Patient */}
-                <View style={styles.containerPatientOptions}>
-                    <TouchableOpacity>
-                            <Text>Delete</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                            <Text>Delete</Text>
-                    </TouchableOpacity>
-                </View>
+            
             </ScrollView>
 
             {/* Floating Button */}
@@ -324,6 +357,20 @@ const PatientScreen = () => {
             >
                 <FontAwesomeIcon icon={faPlus} size={30} color={colors.primary} />
             </TouchableOpacity>
+
+            {/* Componente del modal */}
+            <EditPatientModal
+                   visible={isModalVisible}
+                   onClose={handleCloseModal}
+                   patientName={route.params?.patientName || ''}
+                   height={route.params?.height || ''}
+                   weight={route.params?.weight || ''}
+                   birthdate={route.params?.birthdate || ''}
+                   patientId={route.params?.patientId || ''} // Pasar el patientId
+                   trainerId={trainerID} // Asigna el ID del entrenador
+                   onDelete={handleDelete}
+                   onSave={handleSave}
+            />
         </View>
     );
 }

@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
         color: colors.primary,
         marginTop: spacing.medium,
         textAlign: 'left',
+        marginBottom: 0,
     },
     containerButton: {
         width: '80%',
@@ -77,12 +78,14 @@ export const styles = StyleSheet.create({
     containerText:{
         width: '75%',
         flexDirection: 'column',
+        justifyContent: 'flex-start',
     },
     containerImage:{
         width: '25%',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         borderRadius: 100,
+        marginTop: spacing.small,
     },
     circleContainer: {
         width: 70, 
@@ -114,6 +117,7 @@ export const styles = StyleSheet.create({
         fontStyle: 'italic',
         color: colors.primary,
         fontWeight: '300',
+        marginTop: -(spacing.medium),
     },  
     textInformationSmall:{
         width: '60%',
@@ -291,9 +295,18 @@ export const styles = StyleSheet.create({
         zIndex: 100,
     },
     containerPatientOptions:{
-
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: spacing.medium,
     },
-
+    bottomEdit:{
+        padding: spacing.small,
+        width: '30%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        marginTop: spacing.medium,
+    },
 });
 
 export default styles;

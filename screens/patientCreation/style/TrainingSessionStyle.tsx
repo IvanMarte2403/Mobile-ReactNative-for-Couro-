@@ -218,7 +218,7 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.medium,
     },
     containerPatientOptions:{
-        
+
     },
 
     //Contenedor De Notas
@@ -251,6 +251,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+
 
 
 });

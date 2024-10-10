@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+
 import { View, Text, TextInput, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors } from '../../style';
 import { NavigationProp, useNavigation, useRoute, RouteProp } from '@react-navigation/native';
@@ -53,36 +55,38 @@ const HomeScreen = () => {
     console.log('trainerID:', trainerID);
 
 
-    useEffect(() => {
-
-        const getPatients = async () => {
-            try {
-                console.log('Sending GET request with the following parameters:');
-                console.log('Base URL:', baseUrl);
-                // console.log('Access Token:', accessToken);
-                console.log("Primer FetchTrainer: ")
-                const data = await fetchTrainerPatients(baseUrl, trainerID, prueba);
-
-                console.log('Response from fetchTrainerPatients:', data);
-
-                const patientsWithDetails: Patient[] = await Promise.all(
-                    data.data.map(async (patient: Patient) => {
-                        console.log('Fetching details for patient ID:', patient.patient_id);
-                        const patientDetails = await fetchPatientDetails(baseUrl, patient.patient_id);
-                        console.log('Response from fetchPatientDetails:', patientDetails);
-                        return patientDetails.data[0]; 
-                    })
-                );
-
-                setPatients(patientsWithDetails);
-                console.log('Final list of patients with details:', patientsWithDetails);
-            } catch (error) {
-                console.error('Error fetching patients:', error);
-            }
-        };
-
-        getPatients();
-    }, [trainerID]);
+    useFocusEffect(
+        React.useCallback(() => {
+            const getPatients = async () => {
+                try {
+                    console.log('Sending GET request with the following parameters:');
+                    console.log('Base URL:', baseUrl);
+                    console.log("Primer FetchTrainer: ")
+                    const data = await fetchTrainerPatients(baseUrl, trainerID, prueba);
+    
+                    console.log('Response from fetchTrainerPatients:', data);
+    
+                    const patientsWithDetails: Patient[] = await Promise.all(
+                        data.data.map(async (patient: Patient) => {
+                            console.log('Fetching details for patient ID:', patient.patient_id);
+                            const patientDetails = await fetchPatientDetails(baseUrl, patient.patient_id);
+                            console.log('Response from fetchPatientDetails:', patientDetails);
+                            return patientDetails.data[0]; 
+                        })
+                    );
+    
+                    setPatients(patientsWithDetails);
+                    console.log('Final list of patients with details:', patientsWithDetails);
+                } catch (error) {
+                    console.error('Error fetching patients:', error);
+                }
+            };
+    
+            // Llamar a la función getPatients cuando la vista esté enfocada
+            getPatients();
+        }, [trainerID])
+    );
+    
 
     const handleCreatePatient = async () => {
         try {
