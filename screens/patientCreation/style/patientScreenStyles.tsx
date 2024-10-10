@@ -290,6 +290,9 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 100,
     },
+    containerPatientOptions:{
+
+    },
 
 });
 

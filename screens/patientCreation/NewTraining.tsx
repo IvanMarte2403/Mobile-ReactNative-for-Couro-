@@ -164,7 +164,7 @@
                             Couro Analysis
                         </Text>
                         <Text style={styles.couroRun}>
-                            Unlock the power of Couro: Updload your training session for in-depth analysis and insights
+                            Unlock the power of Couro: Upload your training session for in-depth analysis and insights
                         </Text>
                     </View>
 
@@ -177,7 +177,7 @@
                             onPress={videoSelected ? handleSubmitVideo : requestPermissions} 
                         >
                             <Text style={styles.textUpload}>
-                            {videoSelected ? 'GetAnalysis' : 'Updload Video'} 
+                            {videoSelected ? 'GetAnalysis' : 'Upload Video'} 
                             </Text>
                         </TouchableOpacity>
                     </View>

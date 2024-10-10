@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Dimensions, TextInput } from 'react-native';
 import { colors } from '../../style';
 import { NavigationProp, useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
@@ -8,6 +8,10 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import Svg, { Circle, G } from 'react-native-svg';
 import Video from 'react-native-video';  // Importa el componente de video
 import styles from './style/TrainingSessionStyle';
+
+
+//Services
+import {updateNotes} from '../../services/updateNotes';
 
 const { width } = Dimensions.get('window'); // Obtén el ancho de la pantalla
 
@@ -20,6 +24,8 @@ type TrainingSessionParams = {
     pose_video_url: string;
     stride_video_url: string;
     completion: string;
+    session_id: string;  // Agregar aquí
+    patient_id: string;  // Agregar aquí
 };
 
 type CircularProgressBarProps = {
@@ -99,10 +105,18 @@ const getColorByValue = (value: number): string => {
     }
 };
 
+
+
+
+//Services
+
+
+
 const TrainingSession = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const route = useRoute<RouteProp<{ params: TrainingSessionParams }, 'params'>>(); // Usar useRoute con tipos definidos
-
+ //Services Notes 
+ const [notes, setNotes] = useState(""); // Estado para el contenido del TextInput
     const { 
         couro_score, 
         elbow_score, 
@@ -111,8 +125,25 @@ const TrainingSession = () => {
         hip_score, 
         stride_video_url, 
         completion, 
-        pose_video_url 
+        pose_video_url,
+        session_id, // Agregar session_id
+        patient_id  // Agregar patient_id
+
     } = route.params; // Desestructurar valores
+
+    // Console log para verificar que los valores están llegando correctamente
+    console.log('Training Session Params:', {
+        couro_score,
+        elbow_score,
+        knee_score,
+        shoulder_score,
+        hip_score,
+        stride_video_url,
+        completion,
+        pose_video_url,
+        session_id,
+        patient_id
+    });
 
     const maxValue = 100;
     const [currentVideoUrl, setCurrentVideoUrl] = useState(stride_video_url);
@@ -126,6 +157,8 @@ const TrainingSession = () => {
     const words = relevantText.split(' ');
     const displayedText = words.slice(0, wordLimit).join(' ');
 
+
+
     const handleTextPress = () => {
         if (currentVideoUrl === stride_video_url) {
             setCurrentVideoUrl(pose_video_url);
@@ -138,6 +171,18 @@ const TrainingSession = () => {
         }
     };
 
+    //Services UpdateNotes 
+    const handleUpdateNotes = async () => {
+    
+        try {
+            const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com';
+            await updateNotes(baseUrl, session_id, patient_id, notes);
+            console.log('Notes updated successfully');
+        } catch (error) {
+            console.error('Failed to update notes:', error);
+        }
+    };
+    
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -237,6 +282,29 @@ const TrainingSession = () => {
                             <Text style={styles.bottonShow}>Show More</Text>
                         </TouchableOpacity>
                     )}
+                </View>
+
+                {/* Contenedor Notas */}
+
+                <View style={styles.containerNotes}>
+                    {/* Title */}
+                    <Text style={styles.titleNotes}>
+                        Session Notes
+                    </Text>
+                    <TextInput
+                        style={styles.notesSpace}
+                        placeholder="Write your Notes Here"
+                        placeholderTextColor={colors.secondary}
+                        multiline
+                    />
+
+                     {/* Botón para actualizar las notas */}
+                     <TouchableOpacity
+                        style={styles.updateButton}
+                        onPress={handleUpdateNotes}
+                    >
+                        <Text style={styles.updateButtonText}>Update Notes</Text>
+                    </TouchableOpacity>
                 </View>
 
             </ScrollView>

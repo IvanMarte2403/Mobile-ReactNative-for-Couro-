@@ -59,6 +59,8 @@
       pose_video_url: string;
       stride_video_url: string;
       completion: string;
+      session_id: string; // Agregar aquí
+      patient_id: string; // Agregar aquí
   };  };
 
 

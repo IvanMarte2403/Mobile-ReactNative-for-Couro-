@@ -216,7 +216,42 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: colors.secondary,
     marginBottom: spacing.medium,
-    }
+    },
+    containerPatientOptions:{
+        
+    },
+
+    //Contenedor De Notas
+    
+    containerNotes:{
+
+    },
+    titleNotes:{
+        color: colors.primary,
+        fontWeight: '700',
+        fontSize: fontSizes.medium,
+    },
+    notesSpace:{
+        borderWidth: 1,
+        borderColor: colors.secondary,
+        color: colors.primary,
+        borderRadius: 10,
+        padding: spacing.medium,
+        marginTop: spacing.medium,
+    },
+    updateButton: {
+        backgroundColor: colors.primary,
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    updateButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+
 
 });
 

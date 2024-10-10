@@ -92,7 +92,7 @@ const HomeScreen = () => {
             console.log('Height:', newPatientHeight);
             console.log('Weight:', newPatientWeight);
 
-            await createPatient(baseUrl, trainerId, newPatientFullName, newPatientBirthdate, parseFloat(newPatientHeight), parseFloat(newPatientWeight));
+            await createPatient(baseUrl, trainerID, newPatientFullName, newPatientBirthdate, parseFloat(newPatientHeight), parseFloat(newPatientWeight));
             setModalVisible(false);
 
             console.log('Fetching patients after creating new one.');

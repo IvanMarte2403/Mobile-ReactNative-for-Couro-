@@ -32,6 +32,9 @@ const PatientScreen = () => {
             pose_video: { url: string };
             stride_video: { url: string };
             completion: string;
+            session_id: string;  // Agregar propiedad session_id
+            patient_id: string;  // Agregar propiedad patient_id
+
         };
         score: {
             couro_score: string;
@@ -126,6 +129,8 @@ const PatientScreen = () => {
             pose_video_url: session.session.pose_video.url,
             stride_video_url: session.session.stride_video.url,
             completion: session.session.completion,
+            session_id: session.session.session_id,  // Agregar session_id
+            patient_id: session.session.patient_id,  // Agregar patient_id
         });
     };
 
@@ -142,6 +147,8 @@ const PatientScreen = () => {
                         <Text style={styles.title}>
                             {route.params?.patientName || "Patient"} {"\n"}
                         </Text>
+
+                   
 
                         <Text style={styles.textInformation}>
                         {`Height: ${route.params?.height} ● Weight: ${route.params?.weight} lbs`}
@@ -297,6 +304,16 @@ const PatientScreen = () => {
                             </Text>
                         </View>
                     )}
+                </View>
+                {/* Options Patient */}
+                <View style={styles.containerPatientOptions}>
+                    <TouchableOpacity>
+                            <Text>Delete</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                            <Text>Delete</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
 

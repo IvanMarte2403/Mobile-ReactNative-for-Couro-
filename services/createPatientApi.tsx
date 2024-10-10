@@ -6,6 +6,17 @@
         height: number,
         weight: number
     ) => {
+
+         // Imprimir los parámetros recibidos en la consola
+        console.log('Parámetros recibidos:', {
+            baseUrl,
+            trainerId,
+            fullname,
+            birthdate,
+            height,
+            weight,
+        });
+
         try {
             const response = await fetch(`${baseUrl}/patient/`, {
                 method: 'POST',
@@ -21,7 +32,7 @@
                 }),
             });
 
-            console.log('Response', response);
+            console.log('Response Create Patinent', response);
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -34,3 +45,4 @@
             throw error; // Re-lanzamos el error para manejarlo en el componente
         }
     };
+    
