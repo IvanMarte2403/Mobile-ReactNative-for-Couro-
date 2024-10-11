@@ -87,10 +87,10 @@ const HomeScreen = () => {
         }, [trainerID])
     );
     
-
+   
     const handleCreatePatient = async () => {
 
-        
+
         try {
             console.log('Creating patient with the following details:');
             console.log('Full Name:', newPatientFullName);
@@ -128,7 +128,19 @@ const HomeScreen = () => {
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
     };
-    
+
+
+    //--Filter--
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+ 
+    useEffect(() => {
+        const filtered = patients.filter(patient =>
+            patient.fullname.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredPatients(filtered);
+    }, [patients, searchTerm]);
+
 
     return (
         <View style={styles.container}>
@@ -157,58 +169,60 @@ const HomeScreen = () => {
                         placeholder=""
                         placeholderTextColor={colors.theriary}
                         style={styles.searchInput}
+                        value={searchTerm}
+                        onChangeText={setSearchTerm}
                     />
                 </View>
 
-                {/* Patients */}
                 <View style={styles.containerPatients}>
-                    {patients.map((patient, index) => {
-                        if (index % 2 === 0) {
-                            return (
-                                <View style={styles.rowPatients} key={index}>
-                                    <TouchableOpacity 
-                                        style={styles.patient}
-                                        onPress={() => navigation.navigate('Patient', { 
-                                            patientId: patient.patient_id,
-                                            patientName: patient.fullname,
-                                            height: patient.height,
-                                            weight: patient.weight,
-                                            birthdate: patient.birthdate,
-                                        })}
-                                    >
-                                        <Text style={styles.textPatient}>
-                                            {patient.fullname}
-                                        </Text>
-                                        <Text style={styles.datePacient}>
-                                            {patient.birthdate}
-                                        </Text>
-                                    </TouchableOpacity>
+    {filteredPatients.map((patient, index) => {
+        if (index % 2 === 0) {
+            return (
+                <View style={styles.rowPatients} key={index}>
+                    <TouchableOpacity 
+                        style={styles.patient}
+                        onPress={() => navigation.navigate('Patient', { 
+                            patientId: patient.patient_id,
+                            patientName: patient.fullname,
+                            height: patient.height,
+                            weight: patient.weight,
+                            birthdate: patient.birthdate,
+                        })}
+                    >
+                        <Text style={styles.textPatient}>
+                            {patient.fullname}
+                        </Text>
+                        <Text style={styles.datePacient}>
+                            {patient.birthdate}
+                        </Text>
+                    </TouchableOpacity>
 
-                                    {patients[index + 1] && (
-                                       <TouchableOpacity 
-                                       style={styles.patient}
-                                       onPress={() => navigation.navigate('Patient', { 
-                                           patientId: patients[index + 1].patient_id,
-                                           patientName: patients[index + 1].fullname,
-                                           height: patients[index + 1].height,
-                                           weight: patients[index + 1].weight,
-                                           birthdate: patients[index + 1].birthdate
-                                       })}
-                                   >
-                                   <Text style={styles.textPatient}>
-                                       {patients[index + 1].fullname}
-                                   </Text>
-                                   <Text style={styles.datePacient}>
-                                       {patients[index + 1].birthdate}
-                                   </Text>
-                               </TouchableOpacity>
-                                    )}
-                                </View>
-                            );
-                        }
-                        return null;
-                    })}
+                    {filteredPatients[index + 1] && (
+                        <TouchableOpacity 
+                            style={styles.patient}
+                            onPress={() => navigation.navigate('Patient', { 
+                                patientId: filteredPatients[index + 1].patient_id,
+                                patientName: filteredPatients[index + 1].fullname,
+                                height: filteredPatients[index + 1].height,
+                                weight: filteredPatients[index + 1].weight,
+                                birthdate: filteredPatients[index + 1].birthdate
+                            })}
+                        >
+                            <Text style={styles.textPatient}>
+                                {filteredPatients[index + 1].fullname}
+                            </Text>
+                            <Text style={styles.datePacient}>
+                                {filteredPatients[index + 1].birthdate}
+                            </Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
+            );
+        }
+        return null;
+    })}
+</View>
+
             </ScrollView>
 
             {/* Floating Button */}
