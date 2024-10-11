@@ -122,7 +122,7 @@ import { dom } from '@fortawesome/fontawesome-svg-core';
               console.log('¡Video enviado exitosamente!', data);
               setVideoSelected(false);
               setVideoUri(null);
-              navigation.navigate('Patient')
+              navigation.navigate('Home')
 
           } catch (error) {
               console.error('Error al enviar el video:', error);
