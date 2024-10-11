@@ -185,6 +185,12 @@ export const styles = StyleSheet.create({
     updloadVideoSelected: {
         backgroundColor: 'yellow', 
       },
+    loadingText:{
+        fontSize: 16,
+        color: colors.secondary,
+        textAlign: 'center',
+        marginVertical: 20,
+    }
     
 });
 

@@ -89,6 +89,8 @@ const HomeScreen = () => {
     
 
     const handleCreatePatient = async () => {
+
+        
         try {
             console.log('Creating patient with the following details:');
             console.log('Full Name:', newPatientFullName);

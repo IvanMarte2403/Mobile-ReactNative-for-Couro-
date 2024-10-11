@@ -17,14 +17,26 @@
     import { PermissionsAndroid, Platform } from 'react-native';
     import { check, request, PERMISSIONS, RESULTS, Permission } from 'react-native-permissions';
 
-    
-   
+  //--Navigation--
+  import { useRoute, RouteProp } from '@react-navigation/native';
+import { dom } from '@fortawesome/fontawesome-svg-core';
+
+  type NewTrainingRouteProp = RouteProp<RootStackParamList, 'NewTraining'>;
+
 
     
     const NewTraining = () => {
         const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+        const route = useRoute<NewTrainingRouteProp>();
+        const { patientId } = route.params || {}; // Obtén el patientId del parámetro de navegación
+
+        console.log('PatientID recibido', patientId)
+
+        //--video--
         const [videoUri, setVideoUri] = useState<string | null>(null);
         const [videoSelected, setVideoSelected] = useState(false);
+
+        const [isLoading, setIsLoading] = useState(false);
 
         const selectVideo = () => {
             const options: ImageLibraryOptions = {
@@ -93,32 +105,32 @@
         const { trainerID } = useContext(TrainerContext);
 
         const handleSubmitVideo = async () => {
-            if (!videoUri) {
+          if (!videoUri) {
               console.log('Por favor, selecciona un video primero.');
               return;
-            }
-            const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com';
-            const sessionDate = getCurrentDate();
-          
-            try {
-              let data;
-              let test = 1;
-              // Verifica si `test` es 1 o 0
-              if (test === 1) {
-                  console.log('Haciendo la consulta a testJob');
-                  data = await testJob(baseUrl);
-              } else {
-                  console.log('Haciendo la consulta a startJob');
-                  data = await startJob(baseUrl, trainerID, sessionDate, videoUri);
-              }
-  
+          }
+      
+          const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com';
+          const sessionDate = getCurrentDate();
+      
+          try {
+              setIsLoading(true); // Iniciar la carga
+              console.log('Enviando el video a startJob...');
+              
+              const data = await startJob(baseUrl, patientId, sessionDate, videoUri);
+              
               console.log('¡Video enviado exitosamente!', data);
               setVideoSelected(false);
               setVideoUri(null);
+              navigation.navigate('Patient')
+
           } catch (error) {
               console.error('Error al enviar el video:', error);
+          } finally {
+              setIsLoading(false); // Finalizar la carga
           }
-          };
+      };
+      
           
           
 
@@ -169,18 +181,23 @@
                     </View>
 
                     <View style={styles.containerUpdload}>
-                        <TouchableOpacity
-                            style={[
-                            styles.updloadVideo,
-                            videoSelected && styles.updloadVideoSelected,
-                            ]}
-                            onPress={videoSelected ? handleSubmitVideo : requestPermissions} 
-                        >
-                            <Text style={styles.textUpload}>
-                            {videoSelected ? 'GetAnalysis' : 'Upload Video'} 
-                            </Text>
-                        </TouchableOpacity>
+                        {isLoading ? (
+                            <Text style={styles.loadingText}>Processing video...</Text>
+                        ) : (
+                            <TouchableOpacity
+                                style={[
+                                    styles.updloadVideo,
+                                    videoSelected && styles.updloadVideoSelected,
+                                ]}
+                                onPress={videoSelected ? handleSubmitVideo : requestPermissions}
+                            >
+                                <Text style={styles.textUpload}>
+                                    {videoSelected ? 'Get Analysis' : 'Upload Video'}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
+
 
                 </View>
             </View>

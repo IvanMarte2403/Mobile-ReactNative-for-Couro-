@@ -4,8 +4,15 @@ import React from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from '../../style';
 
+//-- navigation -- 
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '../../App';
+
+
 // -- Services -- 
 import { putPatient } from '../../services/PutPatient'; // Importar la función putPatient
+import { deletePatient } from '../../services/DeletePatient'; // Importar la función deletePatient
+
 
 
 type EditPatientModalProps = {
@@ -37,6 +44,7 @@ const EditPatientModal: React.FC<EditPatientModalProps> = ({
     const [patientHeight, setHeight] = React.useState(height);
     const [patientWeight, setWeight] = React.useState(weight);
     const [patientBirthdate, setBirthdate] = React.useState(birthdate);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const handleSave = async () => {
         try {
@@ -56,8 +64,31 @@ const EditPatientModal: React.FC<EditPatientModalProps> = ({
 
             console.log('Patient updated successfully');
             onSave(name, patientHeight, patientWeight, patientBirthdate); // Llamar a la función onSave con los argumentos correctos
+
+              // Navegar a HomeScreen después de guardar los cambios
+            navigation.navigate('Home');
         } catch (error) {
             console.error('Failed to update patient:', error);
+        }
+    };
+
+
+    const handleDelete = async () => {
+        try {
+
+            const requestBody = {
+                patient_id: patientId,
+                trainer_id: trainerId,
+            };
+              // Agregar un console.log para ver los datos que se están enviando
+         console.log('Datos enviados en la solicitud DELETE:', requestBody);
+            const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com';
+            const response = await deletePatient(baseUrl, patientId, trainerId);
+            console.log('Paciente eliminado con éxito:', response);
+            onDelete(); // Llamar a la función onDelete para cualquier lógica adicional necesaria
+            navigation.navigate('Home'); // Navegar a HomeScreen después de eliminar
+        } catch (error) {
+            console.error('Failed to delete patient:', error);
         }
     };
 
@@ -106,7 +137,7 @@ const EditPatientModal: React.FC<EditPatientModalProps> = ({
 
                     {/* Botones */}
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+                        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
                             <Text style={styles.buttonText}>Delete</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

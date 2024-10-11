@@ -142,11 +142,13 @@ const styles = StyleSheet.create({
     patient: {
         width: '48%',
         height: 150,
-        backgroundColor: colors.textPrimary,
         borderRadius: 10,
         textAlign: 'center',
         justifyContent: 'flex-end',
         alignItems: 'baseline',
+        borderColor: colors.secondary,
+        borderWidth: 2,
+
     },
     textPatient:{
         color: colors.primary,

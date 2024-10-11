@@ -49,8 +49,9 @@
     };
     PatientCreation: undefined;
     Patient: { patientId: string , patientName: string, birthdate: string, height: string, weight: string };
-    NewTraining: undefined;
-    TrainingSession: {
+    NewTraining: { 
+      patientId: string // Añadir el parámetro patientId aquí 
+    };    TrainingSession: {
       couro_score: string;
       shoulder_score: string;
       elbow_score: string;

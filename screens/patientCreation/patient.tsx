@@ -167,7 +167,8 @@ const PatientScreen = () => {
         });
     };
 
-    
+    const patientID = route.params?.patientId;
+    console.log('Patient Id Recibido:' , patientID);
 
     return (
         <View style={styles.container}>
@@ -353,8 +354,8 @@ const PatientScreen = () => {
             {/* Floating Button */}
             <TouchableOpacity
                 style={styles.floatingButtonContainer}
-                onPress={() => navigation.navigate('NewTraining')}
-            >
+                onPress={() => navigation.navigate('NewTraining', { patientId: patientID })} // Aquí pasamos el patientId
+                >
                 <FontAwesomeIcon icon={faPlus} size={30} color={colors.primary} />
             </TouchableOpacity>
 
