@@ -7,18 +7,41 @@ import styles from './style/LoginScreenStyle';
 import { loginUser } from '../../services/apiLogin'; // Importa la función
 import { RootStackParamList } from '../../App'; 
 
+import { supabase } from '../../lib/supabaseClient';
+
 import { TrainerContext } from '../TrainerContext';
 
 const LoginScreen = () => {
-  const { signIn } = useContext(AuthContext);
-  const { setTrainerID, setToken } = useContext(TrainerContext);
+  const {setTrainerID} = useContext(TrainerContext);
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
+  async function signInWithEmail() {
+    const {data, error} = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    console.log('SIGN IN WITH EMAIL: ', data);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    let userID = '';
+
+    console.log(data!.user!.id);
+    setTrainerID(data!.user!.id);
+    userID = data!.user!.id;
+
+    navigation.navigate('Home', {userID});
+  }
+
+  /* const handleLogin = async () => {
     try {
         const baseUrl = 'http://ec2-18-205-159-164.compute-1.amazonaws.com'; // Reemplaza con tu URL base
         const data = await loginUser(baseUrl, email, password);
@@ -43,6 +66,7 @@ const LoginScreen = () => {
         console.error('Failed to log in:', error);
     }
   };
+ */
 
   return (
     <View style={styles.container}>
@@ -69,16 +93,16 @@ const LoginScreen = () => {
           onChangeText={setPassword} // Vincula el valor del input
         />
 
-        <View style={styles.containerForgot}>
+        {/* <View style={styles.containerForgot}>
           <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
             <Text style={styles.forgotPassword}>Forgot password?</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={styles.containerButton}>
-          <TouchableOpacity 
+          <TouchableOpacity
            style={styles.ButtonLogin}
-           onPress={handleLogin}>
+           onPress={signInWithEmail}>
 
             <Text style={styles.ButtonLoginText}>Login</Text>
             

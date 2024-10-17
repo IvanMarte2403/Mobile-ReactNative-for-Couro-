@@ -1,11 +1,13 @@
   import 'react-native-gesture-handler';
-  import React, { useState, createContext, useContext } from 'react';
+  import React, { useState, createContext, useContext, useEffect } from 'react';
   import { NavigationContainer } from '@react-navigation/native';
   import { createStackNavigator } from '@react-navigation/stack';
   import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
   import { Colors } from 'react-native/Libraries/NewAppScreen';
 
   import { TrainerProvider } from './screens/TrainerContext';
+
+  import { supabase } from './lib/supabaseClient';
 
   // AuthentificationViews
   import LoginScreen from './screens/authentification/LoginScreen';
@@ -44,7 +46,6 @@
 
   export type HomeStackParamList = {
     Home: {
-      prueba : string,
       userID: string,
     };
     PatientCreation: undefined;
@@ -98,8 +99,8 @@
 
   const HomeStackScreen = () => (
     <HomeStack.Navigator initialRouteName="Home">
-      <HomeStack.Screen 
-        name="Home" 
+      <HomeStack.Screen
+        name="Home"
         component={HomeScreen} 
         options={{ headerShown: false }} 
       />
@@ -134,36 +135,42 @@
 
 
   // Context for aunthentification, for testing purposes only
-  const AuthContext = createContext<{ signIn: () => void }>({ signIn: () => {} });
+  const AuthContext = createContext<{ session: Session | null }>({ session: null })
 
-  function App(): React.JSX.Element {
-    const isDarkMode = useColorScheme() === 'dark';
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  export default function App(): React.JSX.Element {
+    const isDarkMode = useColorScheme() === 'dark'
+    const [session, setSession] = useState<Session | null>(null)
+
+    useEffect(() => {
+      // Fetch the initial session
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session)
+      })
+
+      // Listen for changes in the session
+      supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session)
+      })
+    }, [])
 
     const backgroundStyle = {
       backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
-
-    const signIn = () => {
-      setIsAuthenticated(true);
-    };
+    }
 
     return (
-      <TrainerProvider>
-
-      <AuthContext.Provider value={{ signIn }}>
-      <NavigationContainer>
-        <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          {isAuthenticated ? <HomeStackScreen /> : <AuthStackScreen />}
-        </SafeAreaView>
-      </NavigationContainer>
-    </AuthContext.Provider>
-
-    </TrainerProvider>
-
-  );
-
+      <AuthContext.Provider value={{ session }}>
+        <NavigationContainer>
+          <SafeAreaView style={[{ flex: 1 }, backgroundStyle]}>
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+            {session ? (
+              <HomeStackScreen />
+            ) : (
+              <AuthStackScreen />
+            )}
+          </SafeAreaView>
+        </NavigationContainer>
+      </AuthContext.Provider>
+    )
   }
 
   export { AuthContext };

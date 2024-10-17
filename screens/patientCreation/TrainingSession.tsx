@@ -294,7 +294,7 @@ const TrainingSession = () => {
                     <TextInput
                         style={styles.notesSpace}
                         placeholder="Write your Notes Here"
-                        placeholderTextColor={colors.secondary}
+                        placeholderTextColor={colors.primary}
                         multiline
                     />
 

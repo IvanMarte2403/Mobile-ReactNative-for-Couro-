@@ -15,6 +15,7 @@ import { fetchTrainerPatients } from '../../services/apiServicePatient';
 import { fetchPatientDetails } from '../../services/apiPatient';
 import { createPatient } from '../../services/createPatientApi';
 
+import { supabase } from '../../lib/supabaseClient';
 
 import { TrainerContext } from '../TrainerContext';
 interface Patient {
@@ -32,8 +33,8 @@ type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 const HomeScreen = () => {
     const route = useRoute<HomeScreenRouteProp>();
 
-    const { prueba, userID } = route.params || {};
-    const { trainerID, token } = useContext(TrainerContext);
+    const {userID} = route.params || {};
+    const {trainerID} = useContext(TrainerContext);
 
     const [patients, setPatients] = useState<Patient[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -53,6 +54,7 @@ const HomeScreen = () => {
     //Checking TrainerContext retriever values in HomeScreen
     console.log('Recovered values of the TrainerCotnext in HomeScreen');
     console.log('trainerID:', trainerID);
+    console.log('userID:', userID);
 
 
     useFocusEffect(
@@ -62,7 +64,7 @@ const HomeScreen = () => {
                     console.log('Sending GET request with the following parameters:');
                     console.log('Base URL:', baseUrl);
                     console.log("Primer FetchTrainer: ")
-                    const data = await fetchTrainerPatients(baseUrl, trainerID, prueba);
+                    const data = await fetchTrainerPatients(baseUrl, trainerID || userID);
     
                     console.log('Response from fetchTrainerPatients:', data);
     
@@ -103,7 +105,7 @@ const HomeScreen = () => {
 
             console.log('Fetching patients after creating new one.');
             console.log('Segundo fetchTrainerPatients')
-            const data = await fetchTrainerPatients(baseUrl, trainerID, prueba);
+            const data = await fetchTrainerPatients(baseUrl, trainerID);
             console.log('Response from fetchTrainerPatients after creation:', data);
 
             const patientsWithDetails: Patient[] = await Promise.all(

@@ -5,11 +5,16 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
+import { supabase } from '../../lib/supabaseClient';
 
 import styles from './style/PatientCreationStyle';  
 
 const PatientCreation = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    async function signOut() {
+        const {error} = await supabase.auth.signOut();
+    }
 
     return (
         <View style={styles.container}>
@@ -65,9 +70,10 @@ const PatientCreation = () => {
 
                 <TouchableOpacity
                 style={styles.buttonChangeRed}
+                onPress={signOut}
                 >
                     <Text  style={styles.changeText}>
-                        Delete Account
+                        Logout
                     </Text>
                 </TouchableOpacity>
             </View>

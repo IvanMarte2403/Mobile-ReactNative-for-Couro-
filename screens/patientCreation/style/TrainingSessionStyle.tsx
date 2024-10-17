@@ -240,14 +240,14 @@ export const styles = StyleSheet.create({
         marginTop: spacing.medium,
     },
     updateButton: {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.secondary,
         padding: 10,
         borderRadius: 5,
         alignItems: 'center',
         marginTop: 10,
     },
     updateButtonText: {
-        color: '#fff',
+        color: colors.primary,
         fontSize: 16,
         fontWeight: 'bold',
     },
