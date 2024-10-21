@@ -159,8 +159,8 @@ const PatientScreen = () => {
             elbow_score: session.score.elbow_score,
             hip_score: session.score.hip_score,
             knee_score: session.score.knee_score,
-            pose_video_url: session.session.pose_video.url,
-            stride_video_url: session.session.stride_video.url,
+            pose_video: session.session.pose_video,
+            stride_video: session.session.stride_video,
             completion: session.session.completion,
             session_id: session.session.session_id,  // Agregar session_id
             patient_id: session.session.patient_id,  // Agregar patient_id

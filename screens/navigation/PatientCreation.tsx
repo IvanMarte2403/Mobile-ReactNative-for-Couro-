@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors, spacing, fontSizes, fonts } from '../../style';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
+import { supabase } from '../../lib/supabaseClient';
 
 import styles from './style/PatientCreationStyle';  
+import { TrainerContext } from '../TrainerContext';
 
 const PatientCreation = () => {
+    const [user, setUser] = useState(null)
+
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    const {trainerEmail} = useContext(TrainerContext);
+
+    async function signOut() {
+        const {error} = await supabase.auth.signOut();
+    }
 
     return (
         <View style={styles.container}>
@@ -41,8 +51,7 @@ const PatientCreation = () => {
                 </View>
 
                 <View style={styles.containerForms}>
-                    <TextInput placeholder="Name" style={styles.input} />
-                    <TextInput placeholder="Password" style={styles.input} />
+                    <TextInput placeholder="email" style={styles.input} value={trainerEmail} editable={false} />
                 </View>
             </View>
 
@@ -59,15 +68,16 @@ const PatientCreation = () => {
                 style={styles.buttonChange}
                 >
                     <Text  style={styles.changeText}>
-                        Change PassWord
+                        Billing Account
                     </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                 style={styles.buttonChangeRed}
+                onPress={signOut}
                 >
                     <Text  style={styles.changeText}>
-                        Delete Account
+                        Logout
                     </Text>
                 </TouchableOpacity>
             </View>

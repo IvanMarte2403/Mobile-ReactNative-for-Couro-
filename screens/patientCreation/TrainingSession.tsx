@@ -21,8 +21,8 @@ type TrainingSessionParams = {
     elbow_score: string;
     hip_score: string;
     knee_score: string;
-    pose_video_url: string;
-    stride_video_url: string;
+    pose_video: string;
+    stride_video: string;
     completion: string;
     session_id: string;  // Agregar aquí
     patient_id: string;  // Agregar aquí
@@ -123,9 +123,9 @@ const TrainingSession = () => {
         knee_score, 
         shoulder_score, 
         hip_score, 
-        stride_video_url, 
+        stride_video, 
         completion, 
-        pose_video_url,
+        pose_video,
         session_id, // Agregar session_id
         patient_id  // Agregar patient_id
 
@@ -138,15 +138,15 @@ const TrainingSession = () => {
         knee_score,
         shoulder_score,
         hip_score,
-        stride_video_url,
+        stride_video,
         completion,
-        pose_video_url,
+        pose_video,
         session_id,
         patient_id
     });
 
     const maxValue = 100;
-    const [currentVideoUrl, setCurrentVideoUrl] = useState(stride_video_url);
+    const [currentVideoUrl, setCurrentVideoUrl] = useState(pose_video);
     const [videoTitle, setVideoTitle] = useState("Stride");
     const [buttonText, setButtonText] = useState("Pose");
 
@@ -160,12 +160,12 @@ const TrainingSession = () => {
 
 
     const handleTextPress = () => {
-        if (currentVideoUrl === stride_video_url) {
-            setCurrentVideoUrl(pose_video_url);
+        if (currentVideoUrl === stride_video) {
+            setCurrentVideoUrl(pose_video);
             setVideoTitle("Pose Estimation");
             setButtonText("Show Stride Video");
         } else {
-            setCurrentVideoUrl(stride_video_url);
+            setCurrentVideoUrl(stride_video);
             setVideoTitle("Stride Video");
             setButtonText("Show Pose Estimation Video");
         }
@@ -294,7 +294,7 @@ const TrainingSession = () => {
                     <TextInput
                         style={styles.notesSpace}
                         placeholder="Write your Notes Here"
-                        placeholderTextColor={colors.secondary}
+                        placeholderTextColor={colors.primary}
                         multiline
                     />
 
